@@ -2,7 +2,7 @@
 
 /*
 
-Usada para exibir textos da UI em diferentes linguas e contextos.
+Exibe textos da UI em diferentes linguas e contextos.
 Duas funcoes (translate e format) combinadas em uma (t).
 
 translate(): 
