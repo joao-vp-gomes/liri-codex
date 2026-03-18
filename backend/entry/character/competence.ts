@@ -12,8 +12,8 @@ export const ATTRIBUTES = [
     'breath',
     'strength',
     'temper',
+    'prowess',
     'tactics',
-    'x',
 
     'agility',
     'stealth',
@@ -24,7 +24,7 @@ export const ATTRIBUTES = [
 
     'erudition',
     'clinic',
-    'pharmacy',
+    'brewing',
     'artifice',
     'composure',
     'insight',

@@ -106,7 +106,7 @@
 .buttonPrimary:hover { background: var(--accent-color-dark); color: var(--stroke-color-high); }
 .buttonPrimary:disabled { background: var(--fill-color-light); color: var(--stroke-color-low); cursor: not-allowed; }
 .buttonSecondary {
-    background: transparent;
+    background: var(--fill-color-darker);
     border: 1px solid var(--fill-color-very-light);
     color: var(--stroke-color-low);
     font-family: 'Cinzel', serif;

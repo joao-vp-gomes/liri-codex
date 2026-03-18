@@ -36,7 +36,8 @@ const AppRoutes: React.FC = () => {
                     </ProtectedRoute>
                 }
             />
-
+            
+            <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
     );
 };
