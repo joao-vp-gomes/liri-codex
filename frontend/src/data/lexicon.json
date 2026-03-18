@@ -2,6 +2,58 @@
     "king-of-rome": {
         "en": "king of Rome",
         "pt": "rei de Roma"
+    },
+    "liri": {
+        "en": "liri",
+        "pt": "liri"
+    },
+    "guest": {
+        "en": "guest",
+        "pt": "convidado"
+    },
+    "disconnect": {
+        "en": "disconnect",
+        "pt": "desconectar"
+    },
+    "sign-in": {
+        "en": "Sign In",
+        "pt": "Entrar"
+    },
+    "username": {
+        "en": "username",
+        "pt": "usuário"
+    },
+    "password": {
+        "en": "password",
+        "pt": "senha"
+    },
+    "username-placeholder": {
+        "en": "username",
+        "pt": "usuário"
+    },
+    "password-placeholder": {
+        "en": "••••••••",
+        "pt": "••••••••"
+    },
+    "invalid-credentials": {
+        "en": "invalid credentials. Please try again.",
+        "pt": "credenciais inválidas. Por favor, tente novamente."
+    },
+    "guest-sign-in-error": {
+        "en": "could not sign in as guest.",
+        "pt": "não foi possível entrar como convidado."
+    },
+    "signing-in": {
+        "en": "signing in…",
+        "pt": "entrando…"
+    },
+    "enter-as-guest": {
+        "en": "enter as guest",
+        "pt": "entrar como convidado"
+    },
+    "entering-as-guest": {
+        "en": "entering as guest...",
+        "pt": "entrando como convidado..."
     }
 }
 

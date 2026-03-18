@@ -1,16 +1,16 @@
 // backend/models/accessory.ts
 
 
-import { Entry } from "./entry";
+import Entry from "./entry.ts";
 
 
 export class Accessory extends Entry {
 
-    constructor(source?: any) {
+    constructor(source?: Partial<Accessory>) {
 
-        super(source)
+        super(source as Entry)
         this['category'] = 'accessory';
-
+        
     }
 
 }

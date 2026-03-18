@@ -25,30 +25,50 @@ format():
 
 */
 
+
 import lexicon from '../data/lexicon.json'
 
 
+// translate: -------------------------------------------------------------------------------------------------------------------
+
 const supportedLanguagesList = ['en', 'pt'] as const;
 type SupportedLanguage = typeof supportedLanguagesList[number];
-export function translate(text: keyof typeof lexicon, language: SupportedLanguage): string {
-    return lexicon[text][language] || text;
+type ARGS_translante = {
+    text: string, 
+    language: SupportedLanguage
+}
+export function translate(args: ARGS_translante): string {
+    return lexicon[args.text as keyof typeof lexicon]?.[args.language] ?? args.text;
 }
 
 
-export function format(text: string, mode: 'LOWERCASE' | 'UPPERCASE' | 'TITLECASE' | 'PLAIN' | 'PLAIN_FIRST_UPPER' = 'PLAIN'): string {
-    switch(mode) {
-        case 'LOWERCASE': return text.toLowerCase();
-        case 'UPPERCASE': return text.toUpperCase();
-        case 'TITLECASE': return text.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-        case 'PLAIN_FIRST_UPPER': return text.charAt(0).toUpperCase() + text.slice(1);
-        case 'PLAIN': default: return text;
+// format: ----------------------------------------------------------------------------------------------------------------------
+
+type ARGS_format = {
+    text: string, 
+    mode: 'LOWERCASE' | 'UPPERCASE' | 'TITLECASE' | 'PLAIN' | 'PLAIN_FIRST_UPPER'
+}
+export function format(args: ARGS_format): string {
+    switch(args.mode) {
+        case 'LOWERCASE': return args.text.toLowerCase();
+        case 'UPPERCASE': return args.text.toUpperCase();
+        case 'TITLECASE': return args.text.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        case 'PLAIN_FIRST_UPPER': return args.text.charAt(0).toUpperCase() + args.text.slice(1);
+        case 'PLAIN': default: return args.text;
     }
 }
 
 
-export function t(text: keyof typeof lexicon, language: SupportedLanguage, mode: 'LOWERCASE' | 'UPPERCASE' | 'TITLECASE' | 'PLAIN' | 'PLAIN_FIRST_UPPER' = 'PLAIN'): string {
-    return format(translate(text, language), mode);
+// t: ---------------------------------------------------------------------------------------------------------------------------
+
+type ARGS_t = {
+    text: string, 
+    language: SupportedLanguage, 
+    mode: 'LOWERCASE' | 'UPPERCASE' | 'TITLECASE' | 'PLAIN' | 'PLAIN_FIRST_UPPER'
+}
+export function t(args: ARGS_t): string {
+    return format({text: translate({text: args.text, language: args.language}), mode: args.mode});
 }
 
 
-export default t;
+

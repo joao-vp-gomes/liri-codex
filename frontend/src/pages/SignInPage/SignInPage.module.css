@@ -1,0 +1,121 @@
+/* frontend/src/pages/SignInPage/SignInPage.module.css */
+
+
+.page {
+    background-color: #171109;
+    background-image: url("data:image/svg+xml,%3Csvg width='16' height='20' viewBox='0 0 16 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23201a12' fill-opacity='0.3' fill-rule='evenodd'%3E%3Cpath d='M8 0v20L0 10M16 0v10L8 0M16 10v10H8'/%3E%3C/g%3E%3C/svg%3E");
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.center {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.form {
+    border: 1px solid var(--fill-color-very-light);
+    border-radius: 5px;
+    padding: 40px 36px;
+    width: 100%;
+    max-width: 800px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+    
+}
+.formTitle {
+    text-align: center;
+    align-self: center;
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--stroke-color-high);
+    letter-spacing: 0.08em;
+    width: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--stroke-color-high);
+    cursor: default;
+}
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 20px;
+}
+.label {
+    text-justify: center;
+    align-self: center;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: var(--stroke-color-regular);
+}
+.input {
+    text-align: center;
+    background: var(--fill-color-darker);
+    border: 1px solid var(--fill-color-very-light);
+    color: var(--stroke-color-high);
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 16px;
+    padding: 11px 14px;
+    outline: none;
+    width: 100%;
+    transition: border-color 0.15s;
+}
+.input:focus {
+    border-color: var(--accent-color);
+}
+.error {
+    font-style: italic;
+    font-size: 14px;
+    color: var(--red-color-light);
+    margin-bottom: 16px;
+    text-align: center;
+}
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 8px;
+    align-self: center;
+    width: 500px;
+}
+.buttonPrimary .buttonSecondary {
+    width: 100%;
+}
+.buttonPrimary {
+    background: var(--accent-color);
+    border: none;
+    color: var(--fill-color-dark);
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    padding: 14px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.buttonPrimary:hover { background: var(--accent-color-dark); color: var(--stroke-color-high); }
+.buttonPrimary:disabled { background: var(--fill-color-light); color: var(--stroke-color-low); cursor: not-allowed; }
+.buttonSecondary {
+    background: transparent;
+    border: 1px solid var(--fill-color-very-light);
+    color: var(--stroke-color-low);
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    padding: 14px;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+}
+.buttonSecondary:hover { border-color: var(--stroke-color-low); color: var(--accent-color); }
+.buttonSecondary:disabled { opacity: 0.4; cursor: not-allowed; }
