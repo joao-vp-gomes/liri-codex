@@ -1,10 +1,11 @@
 // frontend/src/pages/SignInPage/SignInPage.tsx
 
 
+import LOGO_FULL_SOURCE from '../../assets/logo-full.png';
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword, signInAnonymously } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { auth, db } from '../../services/firebase';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { t } from '../../utils/localizer';
@@ -21,8 +22,11 @@ const SignInPage: React.FC = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError]       = useState<string | null>(null);
-    const [loading, setLoading]   = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState<string | null>(null);
+
+    const location = useLocation();
+    const from = (location.state as { from?: string })?.from ?? '/home';
 
     const handleSignIn = async (e: React.FormEvent) => {
 
@@ -32,7 +36,7 @@ const SignInPage: React.FC = () => {
         setLoading('user');
         try {
             await signInWithEmailAndPassword(auth, username + '@liri.com', password);
-            navigate('/home');
+            navigate(from, { replace: true });
         } catch { setError('invalid-credentials'); }
         setLoading(null);
 
@@ -52,68 +56,70 @@ const SignInPage: React.FC = () => {
                 image: 0,
                 characters: []
             });
-            navigate('/home');
+            navigate(from, { replace: true });
         } catch { setError('guest-sign-in-error'); }
         setLoading(null);
 
     };
 
     return (
-        <div className={styles.page}>
+        <>
             <Header showProfile={false} />
-            <div className={styles.center}>
-                <form className={styles.form} onSubmit={handleSignIn}>
+            <div className={styles.page}>
+                <div className={styles.center}>
+                    <form className={styles.form} onSubmit={handleSignIn}>
 
-                    <div className={styles.formTitle}>
-                        {t({text: 'sign-in', language: language, mode: 'TITLECASE'})}
-                    </div>
+                        <div className={styles.logoFull}>
+                            <img src={LOGO_FULL_SOURCE} alt="Liri" />
+                        </div>
 
-                    <div className={styles.field}>
-                        <label className={styles.label}>
-                            {t({text: 'username', language: language, mode: 'UPPERCASE'})}
-                        </label>
-                        <input
-                            className={styles.input}
-                            type="text"
-                            value={username}
-                            onChange={e => setUsername(e.target.value)}
-                            required
-                        />
-                    </div>
+                        <div className={styles.field}>
+                            <label className={styles.label}>
+                                {t({text: 'username', language: language, mode: 'UPPERCASE'})}
+                            </label>
+                            <input
+                                className={styles.input}
+                                type="text"
+                                value={username}
+                                onChange={e => setUsername(e.target.value)}
+                                required
+                            />
+                        </div>
 
-                    <div className={styles.field}>
-                        <label className={styles.label}>
-                            {t({text: 'password', language: language, mode: 'UPPERCASE'})}
-                        </label>
-                        <input
-                            className={styles.input}
-                            type="password"
-                            value={password}
-                            onChange={e => setPassword(e.target.value)}
-                            required
-                        />
-                    </div>
+                        <div className={styles.field}>
+                            <label className={styles.label}>
+                                {t({text: 'password', language: language, mode: 'UPPERCASE'})}
+                            </label>
+                            <input
+                                className={styles.input}
+                                type="password"
+                                value={password}
+                                onChange={e => setPassword(e.target.value)}
+                                required
+                            />
+                        </div>
 
-                    {error && <div className={styles.error}>{t({text: error, language: language, mode: 'PLAIN_FIRST_UPPER'})}</div>}
+                        {error && <div className={styles.error}>{t({text: error, language: language, mode: 'PLAIN_FIRST_UPPER'})}</div>}
 
-                    <div className={styles.actions}>
-                        <button className={styles.buttonPrimary} type="submit" disabled={!!loading}>
-                            {loading === 'user'
-                                ? t({text: 'signing-in', language: language, mode: 'UPPERCASE'})
-                                : t({text: 'sign-in', language: language, mode: 'UPPERCASE'})
-                            }
-                        </button>
-                        <button className={styles.buttonSecondary} type="button" onClick={handleGuest} disabled={!!loading}>
-                            {loading === 'guest'
-                                ? t({text: 'entering-as-guest', language: language, mode: 'UPPERCASE'})
-                                : t({text: 'enter-as-guest', language: language, mode: 'UPPERCASE'})
-                            }
-                        </button>
-                    </div>
+                        <div className={styles.actions}>
+                            <button className={styles.buttonPrimary} type="submit" disabled={!!loading}>
+                                {loading === 'user'
+                                    ? t({text: 'signing-in', language: language, mode: 'UPPERCASE'})
+                                    : t({text: 'sign-in', language: language, mode: 'UPPERCASE'})
+                                }
+                            </button>
+                            <button className={styles.buttonSecondary} type="button" onClick={handleGuest} disabled={!!loading}>
+                                {loading === 'guest'
+                                    ? t({text: 'entering-as-guest', language: language, mode: 'UPPERCASE'})
+                                    : t({text: 'enter-as-guest', language: language, mode: 'UPPERCASE'})
+                                }
+                            </button>
+                        </div>
 
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
+        </>
     );
 
 };

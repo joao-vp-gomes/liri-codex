@@ -5,27 +5,30 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged, type User } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../services/firebase';
+import type { RoleType } from '../types/RoleType';
 
 
 interface AuthContextType {
     user: User | null;
-    role: string | null;
-    name: string | null;
-    imagePath: number | null;
+    role: RoleType;
+    name: string;
+    imagePath: number;
+    characters: string[];
     setImagePath: (n: number) => void;
     loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
-    user: null, role: null, name: null, imagePath: null, setImagePath: () => {}, loading: true
+    user: null, role: 'guest', name: '', characters: [], imagePath: 0, setImagePath: () => {}, loading: true
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const [user, setUser] = useState<User | null>(null);
-    const [role, setRole] = useState<string | null>(null);
-    const [name, setName] = useState<string | null>(null);
-    const [imagePath, setImagePath] = useState<number | null>(null);
+    const [role, setRole] = useState<RoleType>('guest');
+    const [name, setName] = useState<string>('');
+    const [characters, setCharacters] = useState<string[]>([]);
+    const [imagePath, setImagePath] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
@@ -39,13 +42,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                     const data = userDoc.data();
                     setRole(data.role ?? 'guest');
                     setName(data.name ?? null);
-                    setImagePath(data.image || null);
+                    setImagePath(data.image || 0);
+                    setCharacters([...data.characters])
                     console.log(`ACCESS GRANTED — ${data.name} (${data.role})`);
                 } else {
                     // FALLBACK - SHOULD NEVER HAPPEN IDEALLY
                     setRole('guest');
-                    setName(null);
-                    setImagePath(null);
+                    setName('');
+                    setImagePath(0);
+                    setCharacters([])
                     console.log('ACCESS GRANTED AS GUEST (no doc)');
                 }
 
@@ -55,9 +60,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
                 console.log('ACCESS DENIED');
                 setUser(null);
-                setRole(null);
-                setName(null);
-                setImagePath(null);
+                setRole('guest');
+                setName('');
+                setCharacters([]);
+                setImagePath(0);
 
             }
 
@@ -67,7 +73,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ user, role, name, imagePath, setImagePath, loading }}>
+        <AuthContext.Provider value={{ user, role, name, characters, imagePath, setImagePath, loading }}>
             {children}
         </AuthContext.Provider>
     );

@@ -3,7 +3,7 @@
 
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
-import { ProtectedRoute } from './components/ProtectedRoute';
+import { AuthProtectedRoute } from './components/AuthProtectedRoute';
 import { useAuth } from './contexts/AuthContext';
 import SignInPage from './pages/SignInPage/SignInPage';
 import AuthTestPage from './pages/AuthTestPage';
@@ -31,12 +31,22 @@ const AppRoutes: React.FC = () => {
             <Route
                 path="/home"
                 element={
-                    <ProtectedRoute>
+                    <AuthProtectedRoute>
                         <AuthTestPage />
-                    </ProtectedRoute>
+                    </AuthProtectedRoute>
                 }
             />
-            
+
+            <Route
+                path="/car"
+                element={
+                    <AuthProtectedRoute>
+                        <AuthTestPage />
+                    </AuthProtectedRoute>
+                }
+            />
+
+
             <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
     );

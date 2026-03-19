@@ -1,12 +1,6 @@
 // frontend/src/components/Header/Header.tsx
 
 
-import LOGO_SOURCE from '../../assets/logo.png';
-import INCOGNITO_SOURCE from '../../assets/profile-icon-0.jpg';
-import PROFILE_ICON_1 from '../../assets/profile-icon-1.png';
-import PROFILE_ICON_2 from '../../assets/profile-icon-2.png';
-import PROFILE_ICON_3 from '../../assets/profile-icon-3.png';
-
 import React, { useState, useRef, useEffect } from 'react';
 import { signOut, deleteUser } from 'firebase/auth';
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
@@ -16,6 +10,12 @@ import { useLanguage, SUPPORTED_LANGUAGES } from '../../contexts/LanguageContext
 import styles from './Header.module.css';
 import { t, format } from '../../utils/localizer';
 import { useNavigate } from 'react-router-dom';
+
+import LOGO_NAME_SOURCE from '../../assets/logo-name.png';
+import INCOGNITO_SOURCE from '../../assets/profile-icon-0.jpg';
+import PROFILE_ICON_1 from '../../assets/profile-icon-1.png';
+import PROFILE_ICON_2 from '../../assets/profile-icon-2.png';
+import PROFILE_ICON_3 from '../../assets/profile-icon-3.png';
 
 
 const PROFILE_ICONS = [
@@ -40,7 +40,7 @@ const Header: React.FC<Props> = ({ showProfile = false }) => {
     const menuRef = useRef<HTMLDivElement>(null);
     const langRef = useRef<HTMLDivElement>(null);
 
-    const isGuest = imagePath === null;
+    const isGuest = imagePath === 0;
     const image = isGuest
         ? INCOGNITO_SOURCE
         : PROFILE_ICONS[(imagePath - 1)] ?? PROFILE_ICON_1;
@@ -58,6 +58,7 @@ const Header: React.FC<Props> = ({ showProfile = false }) => {
 
     const handleDisconnect = async () => {
 
+        navigate('/home');
         const user = auth.currentUser;
         if (!user) return;
 
@@ -79,7 +80,6 @@ const Header: React.FC<Props> = ({ showProfile = false }) => {
         if (!user) return;
 
         await updateDoc(doc(db, 'users', user.uid), { image: iconNumber });
-        setImagePath(iconNumber);
 
     };
 
@@ -152,7 +152,7 @@ const Header: React.FC<Props> = ({ showProfile = false }) => {
     return (
         <header className={styles.header}>
             <div className={styles.logo}>
-                <img src={LOGO_SOURCE} alt="Liri" onClick={handleLogoClick} />
+                <img src={LOGO_NAME_SOURCE} alt="Liri" onClick={handleLogoClick} />
             </div>
             <div className={styles.rightSection}>
                 {showProfile && profileContainer}

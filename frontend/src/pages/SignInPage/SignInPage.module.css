@@ -7,41 +7,36 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-}
-.center {
-    flex: 1;
-    display: flex;
     align-items: center;
     justify-content: center;
+
+    width: 100%;
+    min-width: min-content;
+}
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10vh;
 }
 .form {
-    border: 1px solid var(--fill-color-very-light);
     border-radius: 5px;
-    padding: 40px 36px;
     width: 100%;
-    max-width: 800px;
     
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    gap: 5px;
+    align-items: center;
+    gap: 8px;
     
 }
-.formTitle {
-    text-align: center;
+.logoFull {
     align-self: center;
-    font-family: 'Cinzel', serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--stroke-color-high);
-    letter-spacing: 0.08em;
-    width: auto;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 5px;
+    margin-top: 24px;
     margin-bottom: 40px;
-    border-bottom: 1px solid var(--stroke-color-high);
-    cursor: default;
+    padding-right: 1vh;
+}
+.logoFull img {
+    height: 80px;
 }
 .field {
     display: flex;
@@ -53,7 +48,7 @@
     text-justify: center;
     align-self: center;
     font-family: 'Cinzel', serif;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.18em;
     color: var(--stroke-color-regular);
@@ -64,10 +59,10 @@
     border: 1px solid var(--fill-color-very-light);
     color: var(--stroke-color-high);
     font-family: 'Crimson Text', Georgia, serif;
-    font-size: 16px;
-    padding: 11px 14px;
+    font-size: 20px;
+    padding: 10px 15px;
     outline: none;
-    width: 100%;
+    width: 600px;
     transition: border-color 0.15s;
 }
 .input:focus {
@@ -75,7 +70,7 @@
 }
 .error {
     font-style: italic;
-    font-size: 14px;
+    font-size: 18px;
     color: var(--red-color-light);
     margin-bottom: 16px;
     text-align: center;
@@ -86,7 +81,7 @@
     gap: 10px;
     margin-top: 8px;
     align-self: center;
-    width: 500px;
+    width: 400px;
 }
 .buttonPrimary .buttonSecondary {
     width: 100%;
@@ -96,9 +91,9 @@
     border: none;
     color: var(--fill-color-dark);
     font-family: 'Cinzel', serif;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 600;
-    letter-spacing: 0.2em;
+    letter-spacing: 1px;
     padding: 14px;
     cursor: pointer;
     transition: background 0.15s;
@@ -110,9 +105,9 @@
     border: 1px solid var(--fill-color-very-light);
     color: var(--stroke-color-low);
     font-family: 'Cinzel', serif;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 600;
-    letter-spacing: 0.2em;
+    letter-spacing: 1px;
     padding: 14px;
     cursor: pointer;
     transition: border-color 0.15s, color 0.15s;
