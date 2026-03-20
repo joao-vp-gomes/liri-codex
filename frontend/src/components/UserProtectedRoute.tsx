@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import type { JSX } from 'react';
 import { canPerform } from '../utils/canPerform';
-import type { ActionType } from '../types/ActionType';
+import type { ActionType } from '../types/actionType';
 
 
 type ARGS_userProtectedRoute = {

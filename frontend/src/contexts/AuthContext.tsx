@@ -5,7 +5,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged, type User } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../services/firebase';
-import type { RoleType } from '../types/RoleType';
+import type { RoleType } from '../types/roleType';
 
 
 interface AuthContextType {

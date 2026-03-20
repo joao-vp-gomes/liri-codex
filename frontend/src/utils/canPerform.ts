@@ -1,7 +1,7 @@
 // frontend/src/utils/canPerform.ts
 
-import type { ActionType } from "../types/ActionType";
-import type { RoleType } from "../types/RoleType";
+import type { ActionType } from "../types/actionType";
+import type { RoleType } from "../types/roleType";
 
 
 type ARGS_canPerform = {
