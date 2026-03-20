@@ -1,23 +1,29 @@
 /* frontend/src/pages/SignInPage/SignInPage.module.css */
 
+@media (max-width: 480px) {
+    .input {
+        font-size: 16px;
+        padding: 10px;
+    }
+    .label {
+        font-size: 10px;
+    }
+}
 
 .page {
-    background-color: #171109;
-    background-image: url("data:image/svg+xml,%3Csvg width='16' height='20' viewBox='0 0 16 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23201a12' fill-opacity='0.3' fill-rule='evenodd'%3E%3Cpath d='M8 0v20L0 10M16 0v10L8 0M16 10v10H8'/%3E%3C/g%3E%3C/svg%3E");
-    min-height: 100vh;
+    height: 100vh;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    width: 100%;
-    min-width: min-content;
 }
 .center {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10vh;
+    padding: clamp(16px, 5vh, 10vh);
+    width: 100%;
 }
 .form {
     border-radius: 5px;
@@ -27,7 +33,6 @@
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    
 }
 .logoFull {
     align-self: center;
@@ -36,7 +41,7 @@
     padding-right: 1vh;
 }
 .logoFull img {
-    height: 80px;
+    width: min(300px, 90vw);
 }
 .field {
     display: flex;
@@ -62,7 +67,7 @@
     font-size: 20px;
     padding: 10px 15px;
     outline: none;
-    width: 600px;
+    width: min(600px, 90vw);
     transition: border-color 0.15s;
 }
 .input:focus {
@@ -81,7 +86,7 @@
     gap: 10px;
     margin-top: 8px;
     align-self: center;
-    width: 400px;
+    width: min(400px, 90vw);
 }
 .buttonPrimary .buttonSecondary {
     width: 100%;
