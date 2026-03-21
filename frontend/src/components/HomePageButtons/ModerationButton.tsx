@@ -5,15 +5,17 @@ import React from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { t } from '../../utils/localizer';
 import styles from '../../pages/HomePage/HomePage.module.css';
+import { useNavigate } from 'react-router-dom';
 
 
 const ModerationButton: React.FC = () => {
 
     const { language } = useLanguage();
+    const navigate = useNavigate();
 
     const doNothing = () => {}
     const handleClick = () => {
-        doNothing();
+        navigate('/moderation')
     };
 
     return (

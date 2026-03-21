@@ -3,8 +3,8 @@
 
 import LOGO_FULL_SOURCE from '../../assets/logo-full.png';
 import React, { useState } from 'react';
-import { signInWithEmailAndPassword, signInAnonymously } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { signInWithEmailAndPassword, signInAnonymously, signOut } from 'firebase/auth';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { auth, db } from '../../services/firebase';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -22,8 +22,8 @@ const SignInPage: React.FC = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState<string | null>(null);
+    const [error, setError]       = useState<string | null>(null);
+    const [loading, setLoading]   = useState<string | null>(null);
 
     const location = useLocation();
     const from = (location.state as { from?: string })?.from ?? '/home';
@@ -31,12 +31,17 @@ const SignInPage: React.FC = () => {
     const handleSignIn = async (e: React.FormEvent) => {
 
         e.preventDefault();
-
         setError(null);
         setLoading('user');
         try {
-            await signInWithEmailAndPassword(auth, username + '@liri.com', password);
-            navigate(from, { replace: true });
+            const credential = await signInWithEmailAndPassword(auth, username + '@liri.com', password);
+            const userDoc = await getDoc(doc(db, 'users', credential.user.uid));
+            if (!userDoc.exists() || !userDoc.data()?.name) {
+                await signOut(auth);
+                setError('invalid-credentials');
+            } else {
+                navigate(from, { replace: true });
+            }
         } catch { setError('invalid-credentials'); }
         setLoading(null);
 
@@ -54,7 +59,8 @@ const SignInPage: React.FC = () => {
                 name: guestName,
                 role: 'guest',
                 image: 0,
-                characters: []
+                characters: [],
+                deleted: false
             });
             navigate(from, { replace: true });
         } catch { setError('guest-sign-in-error'); }

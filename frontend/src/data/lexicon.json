@@ -78,6 +78,42 @@
     "character": {
         "en": "character",
         "pt": "personagem"
+    },
+    "members": {
+        "en": "members",
+        "pt": "membros"
+    },
+    "guests": {
+        "en": "guests",
+        "pt": "convidados"
+    },
+    "no-guests": {
+        "en": "no guests online",
+        "pt": "nenhum convidado online"
+    },
+    "new-member": {
+        "en": "new member",
+        "pt": "novo membro"
+    },
+    "name": {
+        "en": "name",
+        "pt": "nome"
+    },
+    "characters": {
+        "en": "characters",
+        "pt": "personagens"
+    },
+    "save": {
+        "en": "save",
+        "pt": "salvar"
+    },
+    "delete": {
+        "en": "delete",
+        "pt": "deletar"
+    },
+    "cancel": {
+        "en": "cancel",
+        "pt": "cancelar"
     }
 }
 

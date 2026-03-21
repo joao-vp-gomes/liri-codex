@@ -10,6 +10,8 @@ import AuthTestPage from './pages/AuthTestPage';
 import './index.css';
 import { LanguageProvider } from './contexts/LanguageContext';
 import HomePage from './pages/HomePage/HomePage';
+import UserProtectedRoute from './components/UserProtectedRoute';
+import ModerationPage from './pages/ModerationPage/ModerationPage';
 
 
 const AppRoutes: React.FC = () => {
@@ -19,6 +21,17 @@ const AppRoutes: React.FC = () => {
 
     return (
         <Routes>
+
+            <Route
+                path="/moderation"
+                element={
+                    <AuthProtectedRoute>
+                        <UserProtectedRoute actions={['D']}>
+                            <ModerationPage />
+                        </UserProtectedRoute>
+                    </AuthProtectedRoute>
+                }
+            />
 
             <Route
                 path="/signin"

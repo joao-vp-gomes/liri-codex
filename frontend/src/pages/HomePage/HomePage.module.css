@@ -37,30 +37,46 @@
     align-items: center;
 }
 .center button {
-    background: transparent;
-    border: 1px solid var(--stroke-color-high);
-    color: var(--stroke-color-high);
     font-family: 'Cinzel', serif;
     font-weight: 600;
     letter-spacing: 2px;
     cursor: pointer;
-    transition: background 0.15s, color 0.15s;
+    transition: background 0.15s, color 0.15s, border 0.15s;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.center button:hover  { color: var(--stroke-color-regular); border: 1px solid var(--stroke-color-regular); }
-.center button:active { color: var(--fill-color-darker); background-color: var(--stroke-color-regular);}
-.center button:disabled { color: var(--stroke-color-low); cursor: not-allowed; }
+.smallButton { 
+    border: 1px solid var(--stroke-color-low);
+    color: var(--stroke-color-low); 
+    background: transparent; 
+    height: 50px; 
+    width: 400px; 
+    font-size: 13px; 
+}
+.largeButton {  
+    box-shadow: inset 0 0 0 1px var(--fill-color-darker);
+    border: 2px solid var(--stroke-color-regular); 
+    color: var(--fill-color-darker); 
+    background-color: var(--stroke-color-regular); 
+    height: 100px; 
+    width: 480px; 
+    font-size: 26px; 
+}
 
-.smallButton { height: 50px; width: 400px; font-size: 13px; }
-.largeButton { height: 100px; width: 480px; font-size: 26px; }
+.smallButton:hover  { color: var(--stroke-color-regular); border: 1px solid var(--stroke-color-regular); }
+.smallButton:active { color: var(--fill-color-darker); background-color: var(--stroke-color-regular);}
+.smallButton:disabled { color: var(--stroke-color-low); cursor: not-allowed; }
+
+.largeButton:hover  { background-color: var(--stroke-color-low); border: 2px solid var(--stroke-color-low); }
+.largeButton:active { background-color: var(--fill-color-very-light); border: 2px solid var(--fill-color-very-light); }
+.largeButton:disabled { color: var(--stroke-color-low); cursor: not-allowed; }
 
 
 .arrow {
     background: none;
     border: none;
-    color: var(--stroke-color-high);
+    color: var(--stroke-color-regular);
     font-size: 22px;
     cursor: pointer;
     padding: 10px;
@@ -68,4 +84,4 @@
     transition: color 0.12s;
     user-select: none;
 }
-.arrow:hover { color: var(--stroke-color-regular);}
+.arrow:hover { color: var(--stroke-color-low); }
