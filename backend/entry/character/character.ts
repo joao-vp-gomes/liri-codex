@@ -10,12 +10,14 @@ import Item from "./item.ts";
 import Condition, { CONDITIONS } from "./condition.ts";
 import Storage from "./storage.ts";
 import Recipe from "../recipe.ts";
-import Competence from "./competence.ts";
+import Constellation from "./constellation.ts";
+import Scroll from "./scroll.ts";
 
 
 export class Character extends Entry {
 
-    public ['competence']: Competence;
+    public ['constellation']: Constellation;
+    public ['scroll']: Scroll;
     public ['condition']: Condition;
 
     public ['bag']: Bag;
@@ -28,7 +30,8 @@ export class Character extends Entry {
         super(source);
         this['category'] = 'character';
 
-        this['competence'] = new Competence(source?.['competence']?.['current']);
+        this['constellation'] = new Constellation(source?.['constellation']?.['current']);
+        this['scroll'] = new Scroll(source?.['scroll']?.['current']);
         this['condition'] = new Condition(source?.['condition']?.['current']);
 
         this['bag'] = new Bag(source?.['bag']?.['slots']);
@@ -149,6 +152,12 @@ export class Character extends Entry {
         return this['grimmoire'].forget(index);
 
     }
+    useAbility(index: number) {
+
+        const competence = {...(this['grimmoire'].get(index)?.reference as Ability)['competence']};
+        this['scroll'].adjustExperience(competence['identifier'], competence['practice-contribution'], 'add');
+
+    }
 
     public produce(recipes: Map<string, Recipe>, bagSlots: number[]): boolean {
 
@@ -241,19 +250,25 @@ export class Character extends Entry {
         return value;
 
     }
-    public getFinalCompetenceValue(competence: string): number {
+    public getAttributeValue(attribute: string): number {
 
-        const base = this['competence']['current'][competence] ?? 0;
-        return this._applyEffects(base, competence);
+        const base = this['constellation']['current'][attribute] ?? 0;
+        return this._applyEffects(base, attribute);
 
     }
-    public getFinalMaxConditionValue(condition: string): number {
+    public getSkillValue(skill: string): number {
+
+        const base = this['scroll']['current'][skill]['level'] ?? 0;
+        return this._applyEffects(base, skill);
+
+    }
+    public getMaxConditionValue(condition: string): number {
 
         const config = CONDITIONS.find(c => c['identifier'] === condition);
         if (!config) return 0;
 
         const base = config['base-value'] + config['rate'] * config['dependencies'].reduce(
-            (sum, dep) => sum + this.getFinalCompetenceValue(dep), 0
+            (sum, dep) => sum + this.getAttributeValue(dep), 0
         );
 
         return this._applyEffects(base, condition);
@@ -261,5 +276,6 @@ export class Character extends Entry {
     }
 
 }
+
 
 export default Character;

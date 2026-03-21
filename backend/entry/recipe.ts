@@ -7,11 +7,17 @@ import Item from "./character/item.ts";
 
 const DEFAULT_INGREDIENTS = [] as { ['reference-key']: string, ['quantity']: number }[];
 const DEFAULT_PRODUCT = null as Item | null;
-
+const DEFAULT_COMPETENCE = {
+    ['identifier']: '' as string,
+    ['value']: 0 as number,
+    ['practice-contribution']: 1 as number
+}
+ 
 export class Recipe extends Entry {
 
     public ['ingredients']: typeof DEFAULT_INGREDIENTS;
     public ['product']: typeof DEFAULT_PRODUCT;
+    public ['competence']: typeof DEFAULT_COMPETENCE;
 
     constructor(source?: Record<string, any> | null) {
 
@@ -20,6 +26,7 @@ export class Recipe extends Entry {
 
         this['ingredients'] = [...(source?.['ingredients'] ?? DEFAULT_INGREDIENTS)];
         this['product'] = source?.['product'] ?? DEFAULT_PRODUCT;
+        this['competence'] = { ...DEFAULT_COMPETENCE, ...source?.['competence']};
 
     }
 
@@ -40,12 +47,6 @@ export class Recipe extends Entry {
         const ingredient = this['ingredients'][index];
         if (ingredient['quantity'] <= quantity) this['ingredients'].splice(index, 1);
         else ingredient['quantity'] -= quantity;
-
-    }
-
-    public setProduct(item: Item): void {
-
-        this['product'] = item;
 
     }
 

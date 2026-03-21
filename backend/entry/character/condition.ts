@@ -70,7 +70,18 @@ export class Condition {
         this['current'] = { ...DEFAULT_CONDITIONS, ...source };
 
     }
+
+    public adjustCondition(conditionIdentifier: string, value: number, mode: 'add' | 'set'): boolean {
+        
+        if (!(conditionIdentifier in this['current'])) return false;
+
+        if (mode==='add') this['current'][conditionIdentifier] += value;
+        if (mode==='set') this['current'][conditionIdentifier] = value;
+        return true;
+        
+    }
     
 }
+
 
 export default Condition;

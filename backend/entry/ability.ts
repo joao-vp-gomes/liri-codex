@@ -17,12 +17,18 @@ const DEFAULT_COOLDOWN = {
     ['session']: 0 as number
 };
 const DEFAULT_RANGE = 0 as number;
+const DEFAULT_COMPETENCE = {
+    ['identifier']: '' as string,
+    ['value']: 0 as number,
+    ['practice-contribution']: 1 as number
+}
 
 export class Ability extends Entry {
-
+ 
     public ['cost']: typeof DEFAULT_COST;
     public ['cooldown']: typeof DEFAULT_COOLDOWN;
     public ['range']: typeof DEFAULT_RANGE;
+    public ['competence']: typeof DEFAULT_COMPETENCE;
 
     constructor(source?: Partial<Ability> | null) {
 
@@ -32,6 +38,7 @@ export class Ability extends Entry {
         this['cost'] = { ...DEFAULT_COST, ...source?.['cost'] };
         this['cooldown'] = { ...DEFAULT_COOLDOWN, ...source?.['cooldown'] };
         this['range'] = source?.['range'] ?? DEFAULT_RANGE;
+        this['competence'] = { ...DEFAULT_COMPETENCE, ...source?.['competence']};
         
     }
 
