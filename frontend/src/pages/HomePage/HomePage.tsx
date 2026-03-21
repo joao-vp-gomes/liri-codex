@@ -17,7 +17,7 @@ import LOGO_FULL_SOURCE from '../../assets/logo-full.png';
 
 const HomePage: React.FC = () => {
 
-    const { role, characters } = useAuth();
+    const { role } = useAuth();
 
     let buttonsList;
     switch(role) {
