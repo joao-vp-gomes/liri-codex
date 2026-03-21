@@ -11,19 +11,21 @@
 }
 
 .page {
-    height: 100vh;
-    width: 100%;
+    margin: 7vh;
+    padding-top: 20vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: top;
 }
+
 .center {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: clamp(16px, 5vh, 10vh);
-    width: 100%;
+    gap: 15px;
+    width: 400px;
 }
 .form {
     border-radius: 5px;
@@ -38,7 +40,7 @@
     align-self: center;
     margin-top: 24px;
     margin-bottom: 40px;
-    padding-right: 1vh;
+    padding-right: 10px;
 }
 .logoFull img {
     width: min(300px, 90vw);
@@ -101,7 +103,7 @@
     letter-spacing: 1px;
     padding: 14px;
     cursor: pointer;
-    transition: background 0.15s;
+    transition: background 0.15s, color 0.15s;
 }
 .buttonPrimary:hover { background: var(--accent-color-dark); color: var(--stroke-color-high); }
 .buttonPrimary:disabled { background: var(--fill-color-light); color: var(--stroke-color-low); cursor: not-allowed; }

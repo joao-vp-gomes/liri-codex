@@ -23,7 +23,7 @@ export const UserProtectedRoute = ({ children, actions, targetCharacter }: { chi
     }
 
     if (loading) return <div>Loading...</div>;
-    if(!canPerform({role: role, userCharacters: characters, actions: [...actions], targetCharacter: targetCharacter ?? null})) return (
+    if(!canPerform({role: role, userCharacters: characters, actions: actions, targetCharacter: targetCharacter ?? null})) return (
         <>
             <div>
                 Wrong place bud

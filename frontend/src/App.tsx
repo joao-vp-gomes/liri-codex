@@ -9,6 +9,7 @@ import SignInPage from './pages/SignInPage/SignInPage';
 import AuthTestPage from './pages/AuthTestPage';
 import './index.css';
 import { LanguageProvider } from './contexts/LanguageContext';
+import HomePage from './pages/HomePage/HomePage';
 
 
 const AppRoutes: React.FC = () => {
@@ -32,7 +33,7 @@ const AppRoutes: React.FC = () => {
                 path="/home"
                 element={
                     <AuthProtectedRoute>
-                        <AuthTestPage />
+                        <HomePage />
                     </AuthProtectedRoute>
                 }
             />

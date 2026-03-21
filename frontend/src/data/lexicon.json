@@ -54,6 +54,30 @@
     "entering-as-guest": {
         "en": "entering as guest...",
         "pt": "entrando como convidado..."
+    },
+    "campaign": {
+        "en": "campaign",
+        "pt": "campanha"
+    },
+    "codex": {
+        "en": "codex",
+        "pt": "códice"
+    },
+    "rules": {
+        "en": "rules",
+        "pt": "regras"
+    },
+    "moderation": {
+        "en": "moderation",
+        "pt": "moderação"
+    },
+    "new-character": {
+        "en": "new character",
+        "pt": "novo personagem"
+    },
+    "character": {
+        "en": "character",
+        "pt": "personagem"
     }
 }
 

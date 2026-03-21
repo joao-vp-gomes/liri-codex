@@ -10,7 +10,7 @@ export const AuthProtectedRoute = ({ children }: { children: JSX.Element }) => {
     const { user, loading } = useAuth();
     const location = useLocation();
 
-    if (loading) return;
+    if (loading) return null;
     if (!user) return <Navigate to="/signin" state={{ from: location.pathname }} replace />;
     return children;
 };

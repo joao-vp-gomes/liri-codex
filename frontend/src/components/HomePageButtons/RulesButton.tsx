@@ -1,0 +1,27 @@
+// frontend/src/components/HomePageButtons/RulesButton.tsx
+
+
+import React from 'react';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { t } from '../../utils/localizer';
+import styles from '../../pages/HomePage/HomePage.module.css';
+
+
+const RulesButton: React.FC = () => {
+
+    const { language } = useLanguage();
+
+    const handleClick = () => {
+        let a;
+    };
+
+    return (
+        <button className={styles.smallButton} onClick={handleClick}>
+            {t({ text: 'rules', language, mode: 'UPPERCASE' })}
+        </button>
+    );
+
+};
+
+
+export default RulesButton;

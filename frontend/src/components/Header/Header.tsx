@@ -114,13 +114,13 @@ const Header: React.FC<Props> = ({ showProfile = false }) => {
     const profileContainer = (
         <div className={styles.profileContainer} ref={menuRef}>
             <span className={styles.profileName}>
-                {format({text: name ?? 'guest', mode: 'UPPERCASE'}) + (role === 'guest' ? ` (${t({text: 'guest', language: language, mode: 'UPPERCASE'})})` : '')}
+                {format({text: name || 'guest', mode: 'UPPERCASE'}) + (role === 'guest' ? ` (${t({text: 'guest', language: language, mode: 'UPPERCASE'})})` : '')}
             </span>
             <div className={styles.profileImageWrapper} onClick={() => setMenuOpen(o => !o)}>
                 <img
                     className={styles.profileImage}
                     src={image}
-                    alt={format({text: name ?? 'guest', mode: 'UPPERCASE'}) + (role === 'guest' ? ` (${t({text: 'guest', language: language, mode: 'UPPERCASE'})})` : '')}
+                    alt={format({text: name || 'guest', mode: 'UPPERCASE'}) + (role === 'guest' ? ` (${t({text: 'guest', language: language, mode: 'UPPERCASE'})})` : '')}
                 />
             </div>
             {menuOpen && (
