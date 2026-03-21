@@ -12,11 +12,8 @@ const MOCK_CHARACTERS: { key: string, name: string }[] = [
     { key: '2', name: 'Nocthaa' },
 ];
 
-interface Props {
-    userCharacters: string[];
-}
 
-const CharacterButton: React.FC<Props> = ({ userCharacters }) => {
+const CharacterButton: React.FC = () => {
 
     const { language } = useLanguage();
 

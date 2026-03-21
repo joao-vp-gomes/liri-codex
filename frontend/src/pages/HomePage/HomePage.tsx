@@ -33,7 +33,7 @@ const HomePage: React.FC = () => {
         case 'member':
             buttonsList = (
                 <>
-                    <CharactersButton userCharacters={characters} />
+                    <CharactersButton />
                     <CampaignButton />
                     <CodexButton />
                     <RulesButton />
