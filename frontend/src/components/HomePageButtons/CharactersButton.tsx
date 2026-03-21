@@ -39,12 +39,9 @@ const CharacterButton: React.FC<Props> = ({ userCharacters }) => {
         setIndex(i => (i + 1) % options.length);
     };
 
+    const doNothing = () => {}
     const handleClick = () => {
-        if (isNew) {
-            let a;
-        } else {
-            let a; 
-        }
+        doNothing();
     };
 
     return (

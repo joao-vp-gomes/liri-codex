@@ -11,8 +11,9 @@ const CodexButton: React.FC = () => {
 
     const { language } = useLanguage();
 
+    const doNothing = () => {}
     const handleClick = () => {
-        let a;
+        doNothing();
     };
 
     return (
