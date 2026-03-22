@@ -1,4 +1,4 @@
-// frontend/src/components/ProtectedRoute.tsx
+// frontend/src/components/AuthProtectedRoute.tsx
 
 
 import { Navigate, useLocation } from 'react-router-dom';
@@ -7,12 +7,15 @@ import type { JSX } from 'react';
 
 
 export const AuthProtectedRoute = ({ children }: { children: JSX.Element }) => {
-    const { user, loading } = useAuth();
+
+    const { account, loading } = useAuth();
     const location = useLocation();
 
     if (loading) return null;
-    if (!user) return <Navigate to="/signin" state={{ from: location.pathname }} replace />;
+    if (!account?.user) return <Navigate to="/signin" state={{ from: location.pathname }} replace />;
+    if (!account.role) return null;
     return children;
+
 };
 
 

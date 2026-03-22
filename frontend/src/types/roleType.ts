@@ -1,4 +1,4 @@
 // backend/src/types/roleType.ts
 
 
-export type RoleType = 'admin' | 'member' | 'guest';
+export type RoleType = 'admin' | 'member' | 'anon';

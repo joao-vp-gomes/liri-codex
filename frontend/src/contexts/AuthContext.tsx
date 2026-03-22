@@ -2,104 +2,135 @@
 
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { onAuthStateChanged, deleteUser, type User } from 'firebase/auth';
-import { doc, onSnapshot, deleteDoc } from 'firebase/firestore';
-import { auth, db } from '../services/firebase';
+import { supabase } from '../services/supabase';
+import type { User } from '@supabase/supabase-js';
 import type { RoleType } from '../types/roleType';
 
 
-interface AuthContextType {
+const MAX_RETRIES = 3;
+
+interface Account {
     user: User | null;
-    role: RoleType;
-    name: string;
-    imagePath: number;
+    role: RoleType | null;
+    name: string | null;
+    image: number | null;
     characters: string[];
-    setImagePath: (n: number) => void;
+}
+
+interface AuthContextType {
+    account: Account | null;
+    setAccount: (data: Partial<Account>) => void;
     loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
-    user: null, role: 'guest', name: '', characters: [], imagePath: 0, setImagePath: () => {}, loading: true
+    account: null, setAccount: () => {}, loading: true
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
-    const [user, setUser]             = useState<User | null>(null);
-    const [role, setRole]             = useState<RoleType>('guest');
-    const [name, setName]             = useState<string>('');
-    const [characters, setCharacters] = useState<string[]>([]);
-    const [imagePath, setImagePath]   = useState<number>(0);
-    const [loading, setLoading]       = useState<boolean>(true);
+    const [account, setAccount] = useState<Account | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    const setAccountPartially = (data: Partial<Account>) => {
+        setAccount(d => (
+            d 
+            ? { ...d, ...data } 
+            : { user: null, role: null, name: null, image: null, characters: [], ...data }
+        ));
+    };
+
+    const loadUserData = async (id: string, retries = MAX_RETRIES): Promise<void> => {
+
+        const { data } = await supabase
+            .from('users')
+            .select('*')
+            .eq('id', id)
+            .maybeSingle();
+
+        if (data) {
+            setAccountPartially({
+                role: data.role,
+                name: data.name,
+                image: data.image,
+                characters: data.characters ?? [],
+            });
+        } 
+        else if (retries > 0) setTimeout(() => loadUserData(id, retries - 1), 500);
+        else await supabase.auth.signOut();
+        
+    };
 
     useEffect(() => {
 
-        let unsubscribeSnapshot: (() => void) | null = null;
+        let realtimeChannel: ReturnType<typeof supabase.channel> | null = null;
 
-        const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
+        const setupRealtime = (id: string) => {
 
-            if (unsubscribeSnapshot) { unsubscribeSnapshot(); unsubscribeSnapshot = null; }
-
-            if (currentUser) {
-
-                setUser(currentUser);
-
-                unsubscribeSnapshot = onSnapshot(doc(db, 'users', currentUser.uid), async (snap) => {
-
-                    if (snap.exists()) {
-
-                        const data = snap.data();
-
-                        if (data.deleted === true) {
-                            await deleteUser(currentUser);
-                            await deleteDoc(doc(db, 'users', currentUser.uid));
-                            return;
-                        }
-
-                        setRole(data.role ?? 'guest');
-                        setName(data.name ?? '');
-                        setImagePath(data.image || 0);
-                        setCharacters([...data.characters]);
-                        console.log(`ACCESS GRANTED — ${data.name} (${data.role})`);
-
-                    } else {
-                        setRole('guest');
-                        setName('');
-                        setImagePath(0);
-                        setCharacters([]);
-                        console.log('ACCESS GRANTED AS GUEST (no doc)');
+            realtimeChannel = supabase
+                .channel(`users:${id}`)
+                .on('postgres_changes', {
+                    event:  '*',
+                    schema: 'public',
+                    table:  'users',
+                    filter: `id=eq.${id}`
+                }, async (payload) => {
+                    if (payload.eventType === 'DELETE') {
+                        await supabase.auth.signOut();
+                        return;
                     }
+                    const data = payload.new as Account;
+                    setAccountPartially({
+                        role: data.role,
+                        name: data.name,
+                        image: data.image,
+                        characters: data.characters ?? [],
+                    });
+                })
+                .subscribe();
+        };
 
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session?.user) {
+                setAccountPartially({ user: session.user });
+                loadUserData(session.user.id).then(() => {
+                    setupRealtime(session.user!.id);
                     setLoading(false);
-
                 });
+            } else setLoading(false);
+        });
 
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+
+            if (realtimeChannel) { supabase.removeChannel(realtimeChannel); realtimeChannel = null; }
+
+            if (session?.user) {
+                setAccountPartially({ user: session.user });
+                loadUserData(session.user.id).then(() => {
+                    setupRealtime(session.user!.id);
+                });
             } else {
-
                 console.log('ACCESS DENIED');
-                setUser(null);
-                setRole('guest');
-                setName('');
-                setCharacters([]);
-                setImagePath(0);
+                setAccount(null);
                 setLoading(false);
-
             }
 
         });
 
         return () => {
-            unsubscribeAuth();
-            if (unsubscribeSnapshot) unsubscribeSnapshot();
+            subscription.unsubscribe();
+            if (realtimeChannel) supabase.removeChannel(realtimeChannel);
         };
 
     }, []);
 
     return (
-        <AuthContext.Provider value={{ user, role, name, characters, imagePath, setImagePath, loading }}>
+        <AuthContext.Provider value={{ account, setAccount: setAccountPartially, loading }}>
             {children}
         </AuthContext.Provider>
     );
 
 };
+
 
 export const useAuth = () => useContext(AuthContext);

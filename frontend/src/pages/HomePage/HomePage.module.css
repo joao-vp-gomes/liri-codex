@@ -1,6 +1,16 @@
 /* frontend/src/pages/HomePage/HomePage.module.css */
 
 
+@media (max-width: 480px) {
+    .input {
+        font-size: 16px;
+        padding: 10px;
+    }
+    .label {
+        font-size: 10px;
+    }
+}
+
 .page {
     margin: 7vh;
     padding-top: 20vh;

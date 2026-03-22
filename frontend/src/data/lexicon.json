@@ -7,9 +7,9 @@
         "en": "liri",
         "pt": "liri"
     },
-    "guest": {
-        "en": "guest",
-        "pt": "convidado"
+    "anon": {
+        "en": "anonymous",
+        "pt": "anônimo"
     },
     "disconnect": {
         "en": "disconnect",
@@ -39,21 +39,21 @@
         "en": "invalid credentials. Please try again.",
         "pt": "credenciais inválidas. Por favor, tente novamente."
     },
-    "guest-sign-in-error": {
-        "en": "could not sign in as guest.",
-        "pt": "não foi possível entrar como convidado."
+    "anon-sign-in-error": {
+        "en": "could not sign in anonymously.",
+        "pt": "não foi possível entrar anonimamente."
     },
     "signing-in": {
         "en": "signing in…",
         "pt": "entrando…"
     },
-    "enter-as-guest": {
-        "en": "enter as guest",
-        "pt": "entrar como convidado"
+    "enter-as-anon": {
+        "en": "enter anonymously",
+        "pt": "entrar anonimamente"
     },
-    "entering-as-guest": {
-        "en": "entering as guest...",
-        "pt": "entrando como convidado..."
+    "entering-as-anon": {
+        "en": "entering anonymously...",
+        "pt": "entrando anonimamente..."
     },
     "campaign": {
         "en": "campaign",
@@ -83,13 +83,13 @@
         "en": "members",
         "pt": "membros"
     },
-    "guests": {
-        "en": "guests",
-        "pt": "convidados"
+    "anonymous": {
+        "en": "anonymous",
+        "pt": "anônimos"
     },
-    "no-guests": {
-        "en": "no guests online",
-        "pt": "nenhum convidado online"
+    "no-anonymous": {
+        "en": "no anonymous users online",
+        "pt": "nenhum anônimo online"
     },
     "new-member": {
         "en": "new member",
@@ -114,7 +114,17 @@
     "cancel": {
         "en": "cancel",
         "pt": "cancelar"
+    },
+    "create": {
+        "en": "create",
+        "pt": "criar"
+    },
+    "user-protection-breach-message": {
+        "en": "access denied: Lack of permission",
+        "pt": "acesso negado: Falta de permissão"
+    },
+    "back-home": {
+        "en": "back to home page",
+        "pt": "retornar à página principal"
     }
 }
-
-

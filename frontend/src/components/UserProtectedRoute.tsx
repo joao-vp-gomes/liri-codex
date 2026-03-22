@@ -1,37 +1,28 @@
-// frontend/src/components/ProtectedRoute.tsx
+// frontend/src/components/UserProtectedRoute/UserProtectedRoute.tsx
 
 
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import type { JSX } from 'react';
 import { canPerform } from '../utils/canPerform';
 import type { ActionType } from '../types/actionType';
+import UserProtectionBreachPage from '../pages/UserProtectionBreachPage/UserProtectionBreachPage';
 
 
-type ARGS_userProtectedRoute = {
+export const UserProtectedRoute = ({ children, actions, targetCharacter }: {
+    children: JSX.Element,
     actions: ActionType[],
     targetCharacter?: string | null
-}
-export const UserProtectedRoute = ({ children, actions, targetCharacter }: { children: JSX.Element } & ARGS_userProtectedRoute) => {
+}) => {
 
-    const { role, characters, loading } = useAuth();
-    const navigate = useNavigate();
-    const handleClick = () => {
-       
-        navigate('/home');   
+    const { account, loading } = useAuth();
 
-    }
+    if (loading) return null;
 
-    if (loading) return <div>Loading...</div>;
-    if(!canPerform({role: role, userCharacters: characters, actions: actions, targetCharacter: targetCharacter ?? null})) return (
-        <>
-            <div>
-                Wrong place bud
-                <button onClick={handleClick} >Go Home</button>
-            </div>
-        </>
-    );
-    return children;
+    if (!canPerform(account?.role ?? 'anon', actions, account?.characters ?? [], targetCharacter ?? null)) 
+        return (
+            <UserProtectionBreachPage />
+        );
+    else return children;
 
 };
 

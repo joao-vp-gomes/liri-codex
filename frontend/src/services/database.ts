@@ -1,73 +1,76 @@
 // frontend/src/services/database.ts
 
 
-import {
-    collection,
-    doc,
-    getDoc,
-    getDocs,
-    setDoc,
-    deleteDoc,
-} from "firebase/firestore";
-import { db } from "./firebase";
-import { Entry } from '../../../backend/entry/entry';
-import EntryFactory from '../../../backend/entry/entryFactory';
+import { supabase } from './supabase';
+import EntryFactory from '../../../shared/entry/entryFactory';
+import { Entry } from '../../../shared/entry/entry';
 
 
-export const Archive = {
+// HELPERS: ───────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-    async fetch(key: string): Promise<Entry | null> {
-        try {
-            const snapshot = await getDoc(doc(db, 'entries', key));
-            if (!snapshot.exists()) return null;
-            return EntryFactory.instantiate(JSON.parse(snapshot.data()['data']));
-        } catch { return null; }
-    },
-
-    async fetchAll(): Promise<Entry[]> {
-        try {
-            const snapshot = await getDocs(collection(db, 'entries'));
-            return snapshot.docs.map(d => EntryFactory.instantiate(JSON.parse(d.data()['data'])));
-        } catch { return []; }
-    },
-
-    async fetchByCategory(category: string): Promise<Entry[]> {
-        try {
-            const all = await this.fetchAll();
-            return all.filter(e => e['category'] === category);
-        } catch { return []; }
-    },
-
-    async fetchByName(name: string): Promise<Entry | null> {
-        try {
-            const all = await this.fetchAll();
-            return all.find(e => e['name'] === name) ?? null;
-        } catch { return null; }
-    },
-
-    async register(entry: Entry): Promise<boolean> {
-        try {
-            await setDoc(doc(db, 'entries', entry['key']), { data: JSON.stringify(entry) });
-            return true;
-        } catch { return false; }
-    },
-
-    async deregister(keyOrEntry: string | Entry): Promise<boolean> {
-        const key = typeof keyOrEntry === 'string' ? keyOrEntry : keyOrEntry['key'];
-        try {
-            await deleteDoc(doc(db, 'entries', key));
-            return true;
-        } catch { return false; }
-    },
-
-    async contains(key: string): Promise<boolean> {
-        try {
-            const snapshot = await getDoc(doc(db, 'entries', key));
-            return snapshot.exists();
-        } catch { return false; }
-    }
-
+const parsePath = (path: string) => {
+    const parts = path.split('/').filter(Boolean);
+    const table = parts[0];
+    const id    = parts[1] ?? null;
+    const field = parts.slice(2);
+    return { table, id, field };
 };
 
 
-export default Archive;
+// FETCH(SELECT): ─────────────────────────────────────────────────────────────────────────────────────────────────────
+
+export const fetch = async (path: string): Promise<any> => {
+    const { table, id, field } = parsePath(path);
+    try {
+        if (!id) {
+            const { data, error } = await supabase.from(table).select('*').eq('id', id).maybeSingle();
+            if (error) return null;
+            if (table === 'entries') return data.map((d: any) => EntryFactory.instantiate(d.data));
+            return data;
+        }
+        const { data, error } = await supabase.from(table).select('*').eq('id', id).single();
+        if (error || !data) return null;
+        if (table === 'entries') {
+            const entry = EntryFactory.instantiate(data.data);
+            if (!field.length) return entry;
+            return field.reduce((obj, key) => obj?.[key] ?? null, entry as any);
+        }
+        if (!field.length) return data;
+        return field.reduce((obj, key) => obj?.[key] ?? null, data as any);
+    } catch { return null; }
+};
+
+
+// REGISTER(INSERT, UPDATE): ──────────────────────────────────────────────────────────────────────────────────────────
+
+export const register = async (path: string, data: any): Promise<boolean> => {
+    const { table, id } = parsePath(path);
+    try {
+        if (table === 'entries') {
+            const entry = data as Entry;
+            const row = {
+                id: entry['key'],
+                category: entry['category'],
+                name: entry['name'],
+                data: JSON.parse(JSON.stringify(entry)),
+            };
+            const { error } = await supabase.from(table).upsert(row);
+            return !error;
+        }
+        const row = id ? { id, ...data } : data;
+        const { error } = await supabase.from(table).upsert(row);
+        return !error;
+    } catch { return false; }
+};
+
+
+// DEREGISTER(DELETE): ────────────────────────────────────────────────────────────────────────────────────────────────
+
+export const deregister = async (path: string): Promise<boolean> => {
+    const { table, id } = parsePath(path);
+    if (!id) return false;
+    try {
+        const { error } = await supabase.from(table).delete().eq('id', id);
+        return !error;
+    } catch { return false; }
+};

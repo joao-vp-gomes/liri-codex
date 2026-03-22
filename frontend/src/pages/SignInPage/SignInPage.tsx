@@ -1,17 +1,16 @@
 // frontend/src/pages/SignInPage/SignInPage.tsx
 
 
-import LOGO_FULL_SOURCE from '../../assets/logo-full.png';
 import React, { useState } from 'react';
-import { signInWithEmailAndPassword, signInAnonymously, signOut } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { auth, db } from '../../services/firebase';
+import { supabase } from '../../services/supabase';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { t } from '../../utils/localizer';
-import GUEST_NAMES from '../../data/guest-names.json';
-
 import Header from '../../components/Header/Header';
+
+import ALIASES from '../../data/aliases.json';
+import LOGO_FULL_SOURCE from '../../assets/logo-full.png';
+
 import styles from './SignInPage.module.css';
 
 
@@ -22,50 +21,57 @@ const SignInPage: React.FC = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError]       = useState<string | null>(null);
-    const [loading, setLoading]   = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState<string | null>(null);
 
     const location = useLocation();
     const from = (location.state as { from?: string })?.from ?? '/home';
 
     const handleSignIn = async (e: React.FormEvent) => {
-
         e.preventDefault();
         setError(null);
         setLoading('user');
         try {
-            const credential = await signInWithEmailAndPassword(auth, username + '@liri.com', password);
-            const userDoc = await getDoc(doc(db, 'users', credential.user.uid));
-            if (!userDoc.exists() || !userDoc.data()?.name) {
-                await signOut(auth);
+
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: username + '@liri.com',
+                password,
+            });
+            if (error || !data.user) { setError('invalid-credentials'); setLoading(null); return; }
+
+            const userData = await fetch(`users/${data.user.id}/name`);
+            if (!userData) {
+                await supabase.auth.signOut();
                 setError('invalid-credentials');
-            } else {
-                navigate(from, { replace: true });
-            }
+            } else navigate(from, { replace: true });
+            
         } catch { setError('invalid-credentials'); }
         setLoading(null);
-
     };
 
-    const handleGuest = async () => {
-
+    const handleAnon = async () => {
         setError(null);
-        setLoading('guest');
+        setLoading('anon');
         try {
-            const credential = await signInAnonymously(auth);
-            const uid = credential.user.uid;
-            const guestName = GUEST_NAMES.list[Math.floor(Math.random() * GUEST_NAMES.list.length)];
-            await setDoc(doc(db, 'users', uid), {
-                name: guestName,
-                role: 'guest',
-                image: 0,
-                characters: [],
-                deleted: false
-            });
-            navigate(from, { replace: true });
-        } catch { setError('guest-sign-in-error'); }
-        setLoading(null);
+            
+            const { data, error } = await supabase.auth.signInAnonymously();
+            if (error || !data.user) { setError('anon-sign-in-error'); setLoading(null); return; }
 
+            const alias = ALIASES.list[Math.floor(Math.random() * ALIASES.list.length)];
+            const { error: insertError } = await supabase.from('users').insert({
+                id: data.user.id,
+                role: 'anon',
+                name: alias,
+                image: 0,
+                characters: []
+            });
+
+            if (insertError) { setError('anon-sign-in-error'); setLoading(null); return; }
+
+            navigate(from, { replace: true });
+
+        } catch { setError('anon-sign-in-error'); }
+        setLoading(null);
     };
 
     return (
@@ -76,7 +82,7 @@ const SignInPage: React.FC = () => {
                     <form className={styles.form} onSubmit={handleSignIn}>
 
                         <div className={styles.logoFull}>
-                            <img src={LOGO_FULL_SOURCE} alt="Liri" />
+                            <img loading="eager" src={LOGO_FULL_SOURCE} alt="Liri" />
                         </div>
 
                         <div className={styles.field}>
@@ -114,10 +120,10 @@ const SignInPage: React.FC = () => {
                                     : t({text: 'sign-in', language: language, mode: 'UPPERCASE'})
                                 }
                             </button>
-                            <button className={styles.buttonSecondary} type="button" onClick={handleGuest} disabled={!!loading}>
-                                {loading === 'guest'
-                                    ? t({text: 'entering-as-guest', language: language, mode: 'UPPERCASE'})
-                                    : t({text: 'enter-as-guest', language: language, mode: 'UPPERCASE'})
+                            <button className={styles.buttonSecondary} type="button" onClick={handleAnon} disabled={!!loading}>
+                                {loading === 'anon'
+                                    ? t({text: 'entering-as-anon', language: language, mode: 'UPPERCASE'})
+                                    : t({text: 'enter-as-anon', language: language, mode: 'UPPERCASE'})
                                 }
                             </button>
                         </div>

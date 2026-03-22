@@ -4,8 +4,6 @@
 import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import Header from '../../components/Header/Header';
-import styles from './HomePage.module.css';
-
 import CampaignButton   from '../../components/HomePageButtons/CampaignButton';
 import CodexButton      from '../../components/HomePageButtons/CodexButton.tsx';
 import RulesButton      from '../../components/HomePageButtons/RulesButton';
@@ -14,14 +12,15 @@ import CharactersButton  from '../../components/HomePageButtons/CharactersButton
 
 import LOGO_FULL_SOURCE from '../../assets/logo-full.png';
 
+import styles from './HomePage.module.css';
 
 const HomePage: React.FC = () => {
 
-    const { role } = useAuth();
+    const { account } = useAuth();
 
     let buttonsList;
-    switch(role) {
-        case 'guest':
+    switch(account?.role) {
+        case 'anon':
             buttonsList = (
                 <>  
                     <CampaignButton />
@@ -62,7 +61,7 @@ const HomePage: React.FC = () => {
 
                 <div className={styles.center}>
                     <div className={styles.logoFull}>
-                        <img src={LOGO_FULL_SOURCE} alt="Liri" />
+                        <img loading="eager" src={LOGO_FULL_SOURCE} alt="Liri" />
                     </div>
                     {buttonsList}
                 </div>
