@@ -2,7 +2,7 @@
 
 
 import Character from "../../../shared/entry/character/character";
-import Recipe from "../../../shared/entry/recipe";
+import Recipe from "../../../shared/entry/recipe"; 
 import { EQUIPMENT_SLOTS } from "../../../shared/entry/character/equipment";
 import { fetch, register, } from "../services/database";
 
