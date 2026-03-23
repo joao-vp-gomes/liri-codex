@@ -1,4 +1,4 @@
-// backend/models/tool.ts
+// shared/entry/tool.ts
 
 
 import Entry from "./entry.ts";
@@ -23,7 +23,7 @@ export const TOOLS = [
     }
 ] as const;
 type ToolKind = typeof TOOLS[number];
-type KindIdentifier = ToolKind['identifier'];
+export type KindIdentifier = ToolKind['identifier'];
 type KindFields<K extends KindIdentifier> = Extract<ToolKind, { identifier: K }>['fields'][number];
 type ToolStats<K extends KindIdentifier = KindIdentifier> = { ['kind']: K } & { [F in KindFields<K>]: number };
 function resolveStats(source?: Partial<Tool> | null): ToolStats {
@@ -49,6 +49,10 @@ export class Tool extends Entry {
         this['compositions-list'] = [...(source?.['compositions-list'] ?? DEFAULT_COMPOSITIONS_LIST)];
         this['stats'] = resolveStats(source);
 
+    }
+
+    public static changeKind(tool: Tool, kind: KindIdentifier): Tool {
+        return new Tool({ ...tool, stats: { kind } as any });
     }
 
 }

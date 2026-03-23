@@ -20,11 +20,7 @@ import styles from './Header.module.css';
 
 const PROFILE_ICONS = [PROFILE_ICON_1, PROFILE_ICON_2, PROFILE_ICON_3];
 
-interface Props {
-    showProfile?: boolean;
-}
-
-const Header: React.FC<Props> = ({ showProfile = false }) => {
+const Header: React.FC = () => {
 
     const navigate = useNavigate();
 
@@ -132,7 +128,7 @@ const Header: React.FC<Props> = ({ showProfile = false }) => {
                 <img loading="eager" src={LOGO_NAME_SOURCE} alt="Liri" onClick={handleLogoClick} />
             </div>
             <div className={styles.rightSection}>
-                {showProfile && profileContainer}
+                {account?.role && profileContainer}
                 {languageDropdown}
             </div>
         </header>

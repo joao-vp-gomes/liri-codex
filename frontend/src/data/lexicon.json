@@ -126,5 +126,9 @@
     "back-home": {
         "en": "back to home page",
         "pt": "retornar à página principal"
+    },
+    "confirm-deletion": {
+        "en": "please confirm.",
+        "pt": "por favor confime."
     }
 }

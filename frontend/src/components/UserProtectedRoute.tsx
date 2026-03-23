@@ -3,25 +3,20 @@
 
 import { useAuth } from '../contexts/AuthContext';
 import type { JSX } from 'react';
-import { canPerform } from '../utils/canPerform';
-import type { ActionType } from '../types/actionType';
 import UserProtectionBreachPage from '../pages/UserProtectionBreachPage/UserProtectionBreachPage';
 
 
-export const UserProtectedRoute = ({ children, actions, targetCharacter }: {
+export const UserProtectedRoute = ({ children, validation }: {
     children: JSX.Element,
-    actions: ActionType[],
-    targetCharacter?: string | null
+    validation: boolean
 }) => {
 
-    const { account, loading } = useAuth();
+    const { loading } = useAuth();
 
     if (loading) return null;
-
-    if (!canPerform(account?.role ?? 'anon', actions, account?.characters ?? [], targetCharacter ?? null)) 
-        return (
-            <UserProtectionBreachPage />
-        );
+    
+    if (!validation) return <UserProtectionBreachPage />
+        
     else return children;
 
 };

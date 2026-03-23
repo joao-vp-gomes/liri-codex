@@ -1,7 +1,7 @@
 // backend/entry/character/storage.ts
 
 
-import Material from "../material.ts";
+import Material from "../entry/material.ts";
 import Item from "./item.ts";
 
 

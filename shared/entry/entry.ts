@@ -1,4 +1,4 @@
-// backend/models/entry.ts
+// shared/entry/entry.ts
 
 
 import generateKey from "../utils/key.ts";
@@ -6,14 +6,20 @@ import generateKey from "../utils/key.ts";
 
 export type EntryCategory = (
     'entry' |
+
     'apparel' |
     'tool' |
     'accessory' |
-    'ability' |
     'material' |
+    'ability' |
+
     'pawn' |
-    'character' |
-    'recipe'
+    'roster' |
+
+    'recipe' | 
+    'catalogue' |
+
+    'character'
 );
 
 const DEFAULT_KEY = () => generateKey();

@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../services/supabase';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { t } from '../../utils/localizer';
-import Header from '../../components/Header/Header';
 import MemberCard, { type UserDoc } from '../../components/ModerationPageCards/MemberCard';
 import AnonCard, { type AnonDoc } from '../../components/ModerationPageCards/AnonCard';
 import CreateMemberCard from '../../components/ModerationPageCards/CreateMemberCard';
@@ -60,7 +59,6 @@ const ModerationPage: React.FC = () => {
 
     return (
         <>
-            <Header showProfile={true} />
             <div className={styles.page}>
 
                 <div className={styles.pageTitle}>{t({text: 'moderation', language: language, mode: 'TITLECASE'})}</div>

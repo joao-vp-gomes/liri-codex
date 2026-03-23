@@ -1,4 +1,4 @@
-// backend/models/ability.ts
+// shared/entry/ability.ts
 
 
 import Entry from "./entry.ts";

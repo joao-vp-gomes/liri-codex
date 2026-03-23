@@ -3,7 +3,6 @@
 
 import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import Header from '../../components/Header/Header';
 import CampaignButton   from '../../components/HomePageButtons/CampaignButton';
 import CodexButton      from '../../components/HomePageButtons/CodexButton.tsx';
 import RulesButton      from '../../components/HomePageButtons/RulesButton';
@@ -55,8 +54,6 @@ const HomePage: React.FC = () => {
 
     return (
         <>
-            <Header showProfile={true} />
-
             <div className={styles.page}>
 
                 <div className={styles.center}>

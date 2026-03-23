@@ -1,17 +1,17 @@
-// backend/models/entry/character/character.ts
+// shared/entry/character.ts
 
 
-import Entry from "../entry.ts";
-import Ability from "../ability.ts";
-import Bag from "./bag.ts";
-import Equipment, { EQUIPMENT_SLOTS, type SlotIdentifier } from "./equipment.ts";
-import Grimmoire from "./grimmoire.ts";
-import Item from "./item.ts";
-import Condition, { CONDITIONS } from "./condition.ts";
-import Storage from "./storage.ts";
-import Recipe from "../recipe.ts";
-import Constellation from "./constellation.ts";
-import Scroll from "./scroll.ts";
+import Entry from "./entry.ts";
+import Ability from "./ability.ts";
+import Bag from "../sub/bag.ts";
+import Equipment, { EQUIPMENT_SLOTS, type SlotIdentifier } from "../sub/equipment.ts";
+import Grimmoire from "../sub/grimmoire.ts";
+import Item from "../sub/item.ts";
+import Condition, { CONDITIONS } from "../sub/condition.ts";
+import Storage from "../sub/storage.ts";
+import Recipe from "./recipe.ts";
+import Constellation from "../sub/constellation.ts";
+import Scroll from "../sub/scroll.ts";
 
 
 export class Character extends Entry {
@@ -159,7 +159,9 @@ export class Character extends Entry {
 
     }
 
-    public produce(recipes: Map<string, Recipe>, bagSlots: number[]): boolean {
+    public produce(recipe: Recipe, bagSlots: number[]): boolean {
+
+        if (!recipe['product']) return false;
 
         const providedItems = bagSlots.map(slot => ({ slot, item: this['bag'].get(slot) }));
         if (providedItems.some(({ item }) => item === null)) return false;
@@ -173,21 +175,12 @@ export class Character extends Entry {
             entry.slots.push({ slot, item: item! });
         }
 
-        const providedKeys = new Set(provided.keys());
-        const match = [...recipes.values()].find(recipe => {
-            if (!recipe['product']) return false;
-            const recipeKeys = new Set(recipe['ingredients'].map(i => i['reference-key']));
-            if (recipeKeys.size !== providedKeys.size) return false;
-            for (const key of providedKeys) if (!recipeKeys.has(key)) return false;
-            for (const ingredient of recipe['ingredients']) {
-                const entry = provided.get(ingredient['reference-key']);
-                if (!entry || entry.currentStack < ingredient['quantity']) return false;
-            }
-            return true;
-        });
-        if (!match) return false;
+        for (const ingredient of recipe['ingredients']) {
+            const entry = provided.get(ingredient['reference-key']);
+            if (!entry || entry.currentStack < ingredient['quantity']) return false;
+        }
 
-        for (const ingredient of match['ingredients']) {
+        for (const ingredient of recipe['ingredients']) {
             let remaining = ingredient['quantity'];
             for (const { slot, item } of provided.get(ingredient['reference-key'])!.slots) {
                 if (remaining <= 0) break;
@@ -197,27 +190,26 @@ export class Character extends Entry {
             }
         }
 
-        this['bag'].add(match['product']!);
+        this['bag'].add(recipe['product']!);
         return true;
 
     }
-    public repair(itemSlot: number, materialSlot: number, currentStack: number): boolean {
+    public repair(itemSlot: number, materialSlot: number): boolean {
 
         const target = this['bag'].get(itemSlot);
         const material = this['bag'].get(materialSlot);
         if (!target || !material) return false;
 
-        const amount = Math.min(currentStack, material['current-stack']);
         const composition = (target['reference'] as any)?.['compositions-list']
             ?.find((c: any) => c['reference'] === material['reference']['key']);
         if (!composition) return false;
 
         target['current-durability'] = Math.min(
-            target['current-durability'] + composition['value'] * amount,
+            target['current-durability'] + composition['value'],
             (target['reference'] as any)['max-durability']
         );
 
-        this['bag'].remove(materialSlot, amount);
+        this['bag'].remove(materialSlot, 1);
         return true;
 
     }

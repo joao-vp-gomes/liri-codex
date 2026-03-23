@@ -6,8 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '../../services/supabase';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { t } from '../../utils/localizer';
-import Header from '../../components/Header/Header';
-
+import { fetch } from '../../services/database'
 import ALIASES from '../../data/aliases.json';
 import LOGO_FULL_SOURCE from '../../assets/logo-full.png';
 
@@ -76,7 +75,6 @@ const SignInPage: React.FC = () => {
 
     return (
         <>
-            <Header showProfile={false} />
             <div className={styles.page}>
                 <div className={styles.center}>
                     <form className={styles.form} onSubmit={handleSignIn}>

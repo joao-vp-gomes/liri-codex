@@ -113,21 +113,8 @@
     flex-direction: column;
     gap: 16px;
     position: relative;
-}
-
-.cardClose {
-    position: absolute;
-    top: 8px;
-    right: 16px;
-    background: none;
-    border: none;
-    color: var(--stroke-color-low);
-    font-size: 30px;
     cursor: pointer;
-    transition: color 0.12s;
-    padding: 0;
 }
-.cardClose:hover { color: var(--red-color-light); }
 
 .cardUid {
     font-family: 'Crimson Text', serif;

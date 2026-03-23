@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 import styles from './UserProtectionBreachPage.module.css';
-import Header from '../../components/Header/Header';
 
 
 export const UserProtectionBreachPage: React.FC = () => {
@@ -16,7 +15,6 @@ export const UserProtectionBreachPage: React.FC = () => {
     
     return(
         <>
-            <Header showProfile={true} />
             <div className={styles.protection}>
                     <p>{t({ text: 'user-protection-breach-message', language: language, mode: 'UPPERCASE' })}</p>
                     <button onClick={() => navigate('/home')}>

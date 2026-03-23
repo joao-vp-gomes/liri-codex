@@ -12,7 +12,8 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import HomePage from './pages/HomePage/HomePage';
 import UserProtectedRoute from './components/UserProtectedRoute';
 import ModerationPage from './pages/ModerationPage/ModerationPage';
-
+import { userValidation } from './utils/userValidation';
+import Header from './components/Header/Header';
 
 const AppRoutes: React.FC = () => {
 
@@ -26,7 +27,7 @@ const AppRoutes: React.FC = () => {
                 path="/moderation"
                 element={
                     <AuthProtectedRoute>
-                        <UserProtectedRoute actions={['D']}>
+                        <UserProtectedRoute validation={userValidation(account, ['admin'], 'OR', null)} >
                             <ModerationPage />
                         </UserProtectedRoute>
                     </AuthProtectedRoute>
@@ -61,6 +62,7 @@ function App() {
         <BrowserRouter>
             <AuthProvider>
                 <LanguageProvider>
+                    <Header />
                     <AppRoutes />
                 </LanguageProvider>
             </AuthProvider>

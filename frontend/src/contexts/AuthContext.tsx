@@ -9,7 +9,7 @@ import type { RoleType } from '../types/roleType';
 
 const MAX_RETRIES = 3;
 
-interface Account {
+export interface Account {
     user: User | null;
     role: RoleType | null;
     name: string | null;

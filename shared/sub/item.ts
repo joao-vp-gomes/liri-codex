@@ -1,11 +1,11 @@
 // backend/entry/character/item.ts
 
 
-import Ability from "../ability.ts";
-import Apparel from "../apparel.ts";
-import { Entry } from "../entry.ts";
-import Material from "../material.ts";
-import Tool from "../tool.ts";
+import Ability from "../entry/ability.ts";
+import Apparel from "../entry/apparel.ts";
+import { Entry } from "../entry/entry.ts";
+import Material from "../entry/material.ts";
+import Tool from "../entry/tool.ts";
 
 
 export interface Quirk {

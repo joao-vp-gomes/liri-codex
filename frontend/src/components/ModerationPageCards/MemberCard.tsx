@@ -66,15 +66,12 @@ const MemberCard: React.FC<{ user: UserDoc }> = ({ user }) => {
         setSaving(false);
     };
 
-    const handleDelete = async (e: React.MouseEvent) => {
-        e.stopPropagation();
-        await deleteUser(user.uid);
+    const handleDelete = async () => {
+        if(confirm(t({text: 'confirm-deletion', language: language, mode: 'PLAIN_FIRST_UPPER'}))) await deleteUser(user.uid);
     };
 
     const expandedCard = (
-        <div className={styles.cardBody} onClick={e => e.stopPropagation()}>
-            <button className={styles.cardClose} onClick={() => setExpanded(false)}>-</button>
-
+        <div className={styles.cardBody} >
             <div className={styles.cardUid}>{user.uid}</div>
 
             <div className={styles.cardIconPicker}>
@@ -82,7 +79,7 @@ const MemberCard: React.FC<{ user: UserDoc }> = ({ user }) => {
                     <button
                         key={n}
                         className={`${styles.iconBtn}${editImage === n ? ` ${styles.iconBtnActive}` : ''}`}
-                        onClick={() => setEditImage(n)}
+                        onClick={e =>  { setEditImage(n); e.stopPropagation() }}
                     >
                         <img loading="eager" src={PROFILE_ICONS[n]} alt={`icon ${n}`} />
                     </button>
@@ -91,7 +88,7 @@ const MemberCard: React.FC<{ user: UserDoc }> = ({ user }) => {
 
             <div className={styles.cardField}>
                 <span className={styles.cardFieldLabel}>{t({ text: 'name', language, mode: 'UPPERCASE' })}</span>
-                <input className={styles.cardInput} value={editName} onChange={e => setEditName(e.target.value)} />
+                <input className={styles.cardInput} value={editName} onClick={e=> { e.stopPropagation() }} onChange={e => setEditName(e.target.value)} />
             </div>
 
             <div className={styles.cardField}>
@@ -102,6 +99,7 @@ const MemberCard: React.FC<{ user: UserDoc }> = ({ user }) => {
                             className={styles.cardInput}
                             value={editChars[i]}
                             placeholder={`character ${i + 1} key`}
+                            onClick={e=> { e.stopPropagation() }}
                             onChange={e => {
                                 const next = [...editChars] as [string, string, string];
                                 next[i] = e.target.value;
@@ -116,12 +114,12 @@ const MemberCard: React.FC<{ user: UserDoc }> = ({ user }) => {
             </div>
 
             <div className={styles.cardActions}>
-                <button className={styles.btnSave} onClick={handleSave} disabled={saving}>
+                <button className={styles.btnSave} onClick={e => { handleSave(); e.stopPropagation() }} disabled={saving}>
                     {saving ? '…' : t({ text: 'save', language, mode: 'UPPERCASE' })}
                 </button>
                 {status === 'saved' && <span className={styles.statusOk}>✓</span>}
                 {status === 'error'  && <span className={styles.statusErr}>✕</span>}
-                <button className={styles.btnDelete} onClick={handleDelete}>
+                <button className={styles.btnDelete} onClick={e => { handleDelete(); e.stopPropagation() }}>
                     {t({ text: 'delete', language, mode: 'UPPERCASE' })}
                 </button>
             </div>
@@ -131,7 +129,7 @@ const MemberCard: React.FC<{ user: UserDoc }> = ({ user }) => {
     return (
         <div
             className={`${styles.card} ${expanded ? styles.cardExpanded : ''} ${isEmpty ? styles.cardEmpty : ''}`}
-            onClick={() => !expanded && setExpanded(true)}
+            onClick={() => setExpanded(e => !e)}
         >
             {
                 (!expanded)

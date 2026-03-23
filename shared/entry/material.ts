@@ -1,4 +1,4 @@
-// backend/models/material.ts
+// shared/entry/material.ts
 
 
 import Entry from "./entry.ts";

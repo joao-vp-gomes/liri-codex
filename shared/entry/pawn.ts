@@ -1,6 +1,7 @@
-// backend/models/pawn.ts
+// shared/entry/pawn.ts
 
 
+import Constellation from "../sub/constellation.ts";
 import Entry from "./entry.ts";
 
 
@@ -17,6 +18,7 @@ export class Pawn extends Entry {
     public ['passive-traits']: typeof DEFAULT_PASSIVE_TRAITS;
     public ['max-health']: typeof DEFAULT_MAX_HEALTH;
     public ['is-unique']: typeof DEFAULT_IS_UNIQUE;
+    public ['constellation']: Constellation;
 
     constructor(source?: Partial<Pawn> | null) {
 
@@ -27,7 +29,8 @@ export class Pawn extends Entry {
         this['passive-traits'] = [...(source?.['passive-traits'] ?? DEFAULT_PASSIVE_TRAITS)];
         this['max-health'] = source?.['max-health'] ?? DEFAULT_MAX_HEALTH;
         this['is-unique'] = source?.['is-unique'] ?? DEFAULT_IS_UNIQUE;
-        
+        this['constellation'] = new Constellation(source?.['constellation']?.['current']);
+
     }
 
 }

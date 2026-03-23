@@ -1,8 +1,8 @@
-// backend/models/recipe.ts
+// shared/entry/recipe.ts
 
 
 import Entry from "./entry";
-import Item from "./character/item.ts";
+import Item from "../sub/item.ts";
 
 
 const DEFAULT_INGREDIENTS = [] as { ['reference-key']: string, ['quantity']: number }[];

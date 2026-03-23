@@ -1,7 +1,7 @@
 // frontend/src/utils/transfer.ts
 
 
-import Character from "../../../shared/entry/character/character";
+import Character from "../../../shared/entry/character";
 import { fetch, register } from "../services/database";
 
 

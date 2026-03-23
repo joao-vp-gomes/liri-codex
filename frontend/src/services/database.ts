@@ -23,7 +23,7 @@ export const fetch = async (path: string): Promise<any> => {
     const { table, id, field } = parsePath(path);
     try {
         if (!id) {
-            const { data, error } = await supabase.from(table).select('*').eq('id', id).maybeSingle();
+            const { data, error } = await supabase.from(table).select('*');
             if (error) return null;
             if (table === 'entries') return data.map((d: any) => EntryFactory.instantiate(d.data));
             return data;
