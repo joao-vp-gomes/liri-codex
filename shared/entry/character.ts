@@ -338,7 +338,7 @@ export class Character extends Entry {
     public getProtectionValue(element: string): number {
 
         const base = (this['equipment']['current']['apparel']?.['reference'] as any)['protection'][element] || 0;
-        return this._applyEffects(0, `${element}-protection`);
+        return this._applyEffects(base, `${element}-protection`);
 
     }
 
