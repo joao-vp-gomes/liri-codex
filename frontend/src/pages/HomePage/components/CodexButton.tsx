@@ -13,8 +13,7 @@ const CodexButton: React.FC = () => {
 
     const { language } = useLanguage();
     const navigate = useNavigate();
-
-    const doNothing = () => {}
+    
     const handleClick = () => {
         navigate('/codex');
     };
