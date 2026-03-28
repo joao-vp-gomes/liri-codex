@@ -37,15 +37,7 @@
     align-items: center;
     gap: 8px;
 }
-.logoFull {
-    align-self: center;
-    margin-top: 24px;
-    margin-bottom: 40px;
-    padding-right: 10px;
-}
-.logoFull img {
-    width: min(300px, 90vw);
-}
+
 .field {
     display: flex;
     flex-direction: column;
@@ -83,7 +75,7 @@
     margin-bottom: 16px;
     text-align: center;
 }
-.actions {
+.buttons {
     display: flex;
     flex-direction: column;
     gap: 10px;

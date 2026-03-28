@@ -3,11 +3,11 @@
 
 import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import CampaignButton   from '../../components/HomePageButtons/CampaignButton';
-import CodexButton      from '../../components/HomePageButtons/CodexButton.tsx';
-import RulesButton      from '../../components/HomePageButtons/RulesButton';
-import ModerationButton from '../../components/HomePageButtons/ModerationButton';
-import CharactersButton  from '../../components/HomePageButtons/CharactersButton';
+import CampaignButton   from './components/CampaignButton.tsx';
+import CodexButton      from './components/CodexButton.tsx';
+import RulesButton      from './components/RulesButton';
+import ModerationButton from './components/ModerationButton';
+import CharactersButton  from './components/CharactersButton';
 
 import LOGO_FULL_SOURCE from '../../assets/logo-full.png';
 

@@ -5,9 +5,9 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../services/supabase';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { t } from '../../utils/localizer';
-import MemberCard, { type UserDoc } from '../../components/ModerationPageCards/MemberCard';
-import AnonCard, { type AnonDoc } from '../../components/ModerationPageCards/AnonCard';
-import CreateMemberCard from '../../components/ModerationPageCards/CreateMemberCard';
+import MemberCard, { type UserDoc } from './components/MemberCard';
+import AnonCard, { type AnonDoc } from './components/AnonCard';
+import CreateMemberCard from './components/CreateMemberCard';
 
 import styles from './ModerationPage.module.css';
 

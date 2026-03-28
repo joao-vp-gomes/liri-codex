@@ -10,10 +10,11 @@ import SignInPage from './pages/SignInPage/SignInPage';
 import './index.css';
 import { LanguageProvider } from './contexts/LanguageContext';
 import HomePage from './pages/HomePage/HomePage';
-import UserProtectedRoute from './components/UserProtectedRoute';
+import UserProtectedRoute from './components/UserProtectedRoute/UserProtectedRoute';
 import ModerationPage from './pages/ModerationPage/ModerationPage';
 import { userValidation } from './utils/userValidation';
 import Header from './components/Header/Header';
+import CodexPage from './pages/CodexPage/CodexPage';
 
 const AppRoutes: React.FC = () => {
 
@@ -23,11 +24,20 @@ const AppRoutes: React.FC = () => {
     return (
         <Routes>
 
+            <Route 
+                path="/codex" 
+                element={
+                    <AuthProtectedRoute>
+                        <CodexPage />
+                    </AuthProtectedRoute>
+                } 
+            />
+
             <Route
                 path="/moderation"
                 element={
                     <AuthProtectedRoute>
-                        <UserProtectedRoute validation={userValidation(account, ['admin'], 'OR', null)} >
+                        <UserProtectedRoute returnHome={true} validation={userValidation(account, ['admin'], 'OR', null)} >
                             <ModerationPage />
                         </UserProtectedRoute>
                     </AuthProtectedRoute>

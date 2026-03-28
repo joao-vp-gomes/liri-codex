@@ -8,7 +8,7 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { t } from '../../utils/localizer';
 import { fetch } from '../../services/database'
 import ALIASES from '../../data/aliases.json';
-import LOGO_FULL_SOURCE from '../../assets/logo-full.png';
+import MainLogo from '../../components/MainLogo/MainLogo';
 
 import styles from './SignInPage.module.css';
 
@@ -77,11 +77,10 @@ const SignInPage: React.FC = () => {
         <>
             <div className={styles.page}>
                 <div className={styles.center}>
-                    <form className={styles.form} onSubmit={handleSignIn}>
+                    
+                    <MainLogo />
 
-                        <div className={styles.logoFull}>
-                            <img loading="eager" src={LOGO_FULL_SOURCE} alt="Liri" />
-                        </div>
+                    <form className={styles.form} onSubmit={handleSignIn}>
 
                         <div className={styles.field}>
                             <label className={styles.label}>
@@ -111,7 +110,7 @@ const SignInPage: React.FC = () => {
 
                         {error && <div className={styles.error}>{t({text: error, language: language, mode: 'PLAIN_FIRST_UPPER'})}</div>}
 
-                        <div className={styles.actions}>
+                        <div className={styles.buttons}>
                             <button className={styles.buttonPrimary} type="submit" disabled={!!loading}>
                                 {loading === 'user'
                                     ? t({text: 'signing-in', language: language, mode: 'UPPERCASE'})

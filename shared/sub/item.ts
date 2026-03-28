@@ -17,11 +17,8 @@ export interface Quirk {
 const DEFAULT_QUIRKS = [] as Quirk[];
 const DEFAULT_CURRENT_DURABILITY = 0 as number;
 const DEFAULT_CURRENT_STACK = 1 as number;
-const DEFAULT_CURRENT_COOLDOWN = {
-    'turn': 0 as number,
-    'combat': 0 as number,
-    'session': 0 as number
-}
+const DEFAULT_CURRENT_COOLDOWN = 0 as number;
+const DEFAULT_CURRENT_DURATION = 0 as number;
 
 
 type ARGS_item = {
@@ -29,7 +26,8 @@ type ARGS_item = {
     quirks?: typeof DEFAULT_QUIRKS, 
     currentDurability?: typeof DEFAULT_CURRENT_DURABILITY, 
     currentStack?: typeof DEFAULT_CURRENT_STACK, 
-    currentCooldown?: typeof DEFAULT_CURRENT_COOLDOWN
+    currentCooldown?: typeof DEFAULT_CURRENT_COOLDOWN,
+    currentDuration?: typeof DEFAULT_CURRENT_DURATION
 }
 class Item {
 
@@ -38,6 +36,7 @@ class Item {
     public ['current-durability']: typeof DEFAULT_CURRENT_DURABILITY;
     public ['current-stack']: typeof DEFAULT_CURRENT_STACK;
     public ['current-cooldown']: typeof DEFAULT_CURRENT_COOLDOWN;
+    public ['current-duration']: typeof DEFAULT_CURRENT_DURATION;
 
     constructor(args: ARGS_item) {
 
@@ -47,6 +46,7 @@ class Item {
         this['current-stack'] = DEFAULT_CURRENT_STACK;
 
         this['current-cooldown'] = DEFAULT_CURRENT_COOLDOWN;
+        this['current-duration'] = DEFAULT_CURRENT_DURATION;
 
         if (args.reference instanceof Apparel || args.reference instanceof Tool)
             this['current-durability'] = args.currentDurability ?? args.reference['max-durability'];
@@ -56,6 +56,7 @@ class Item {
 
         if (args.reference instanceof Ability) {
             this['current-cooldown'] = args.currentCooldown ?? args.reference['cooldown'];
+            this['current-duration'] = args.currentDuration ?? args.reference['duration'];
         }
         
     }

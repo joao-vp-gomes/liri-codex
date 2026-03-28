@@ -2,15 +2,15 @@
 
 
 import React, { useState } from 'react';
-import { createUser } from '../../services/adminActions';
-import { useLanguage } from '../../contexts/LanguageContext';
-import { t } from '../../utils/localizer';
+import { createUser } from '../../../services/adminActions';
+import { useLanguage } from '../../../contexts/LanguageContext';
+import { t } from '../../../utils/localizer';
 
-import PROFILE_ICON_1 from '../../assets/profile-icon-1.png';
-import PROFILE_ICON_2 from '../../assets/profile-icon-2.png';
-import PROFILE_ICON_3 from '../../assets/profile-icon-3.png';
+import PROFILE_ICON_1 from '../../../assets/profile-icon-1.png';
+import PROFILE_ICON_2 from '../../../assets/profile-icon-2.png';
+import PROFILE_ICON_3 from '../../../assets/profile-icon-3.png';
 
-import styles from '../../pages/ModerationPage/ModerationPage.module.css';
+import styles from '../ModerationPage.module.css';
 
 
 const PROFILE_ICONS = [PROFILE_ICON_1, PROFILE_ICON_2, PROFILE_ICON_3];

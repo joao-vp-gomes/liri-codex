@@ -18,43 +18,25 @@ export const CONDITIONS = [
         ['identifier']: 'major-energy',
         ['dependencies']: ['agility', 'rogue'],
         ['base-value']: 1,
-        ['rate']: 0.17 /* ~1/6 */,
+        ['rate']: 0.2,
     },
     {
         ['identifier']: 'minor-energy',
         ['dependencies']: ['agility', 'rogue'],
         ['base-value']: 1,
-        ['rate']: 0.25,
+        ['rate']: 0.5,
+    },
+    {
+        ['identifier']: 'reflex-energy',
+        ['dependencies']: ['agility', 'rogue'],
+        ['base-value']: 1,
+        ['rate']: 0.5,
     },
     {
         ['identifier']: 'movement',
         ['dependencies']: ['breath', 'warrior'],
         ['base-value']: 3,
         ['rate']: 1,
-    },
-    {
-        ['identifier']: 'taint-resistance',
-        ['dependencies']: ['temper', 'warrior'],
-        ['base-value']: 0,
-        ['rate']: 0.5,
-    },
-    {
-        ['identifier']: 'poison-resistance',
-        ['dependencies']: ['metabolism', 'rogue'],
-        ['base-value']: 0,
-        ['rate']: 0.5,
-    },
-    {
-        ['identifier']: 'delirium-resistance',
-        ['dependencies']: ['composure', 'sage'],
-        ['base-value']: 0,
-        ['rate']: 0.5,
-    },
-    {
-        ['identifier']: 'wither-resistance',
-        ['dependencies']: ['attunement', 'poet'],
-        ['base-value']: 0,
-        ['rate']: 0.5,
     },
 ];
 const DEFAULT_CONDITIONS = Object.fromEntries( CONDITIONS.map(

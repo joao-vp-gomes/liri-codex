@@ -5,7 +5,7 @@ import Entry from "./entry.ts";
 import Ability from "./ability.ts";
 import Bag from "../sub/bag.ts";
 import Equipment, { EQUIPMENT_SLOTS, type SlotIdentifier } from "../sub/equipment.ts";
-import Grimmoire from "../sub/grimmoire.ts";
+import Grimmoire, { GRIMMOIRE_CAPACITY } from "../sub/grimmoire.ts";
 import Item from "../sub/item.ts";
 import Condition, { CONDITIONS } from "../sub/condition.ts";
 import Storage from "../sub/storage.ts";
@@ -128,7 +128,7 @@ export class Character extends Entry {
     // GRIMMOIRE <-> ENVIRONMENT
     public learnAbility(index: number, ability: Ability, method: 'HARD_REPLACEMENT' | 'SOFT_REPLACEMENT' | 'SUPER_SOFT_REPLACEMENT'): Item | null {
 
-        const item = new Item({ reference: ability, currentCooldown: { ...ability['cooldown'] } });
+        const item = new Item({ reference: ability });
 
         if (method === 'SUPER_SOFT_REPLACEMENT') {
             const current = this['grimmoire'].get(index);
@@ -152,10 +152,73 @@ export class Character extends Entry {
         return this['grimmoire'].forget(index);
 
     }
-    useAbility(index: number) {
+    public useAbility(index: number): boolean {
 
-        const competence = {...(this['grimmoire'].get(index)?.reference as Ability)['competence']};
+        const item = this['grimmoire'].get(index);
+        if (!item) return false;
+
+        const ability = item['reference'] as Ability;
+        const maxDuration = ability['duration']; 
+        const maxCooldown   = ability['cooldown'];
+
+        const isIdle = item['current-cooldown'] === 0 && item['current-duration'] === maxDuration;
+        if (!isIdle) return false;
+
+        item['current-duration']--;          
+        item['current-cooldown'] = maxCooldown; 
+        if (maxDuration === 0 && maxCooldown === 0) item['current-duration'] = 0;
+
+        const competence = { ...(ability['competence']) };
         this['scroll'].adjustExperience(competence['identifier'], competence['practice-contribution'], 'add');
+
+        return true;
+
+    }
+    public resetAbility(index: number) {
+
+        const item = this['grimmoire'].get(index);
+        if (!item) return;
+
+        const ability = item['reference'] as Ability;
+        item['current-duration']  = ability['duration'];
+        item['current-cooldown']  = 0;
+        
+    }
+    public resetAllAbilities() {
+
+        for (let i = 0; i < GRIMMOIRE_CAPACITY; i++) {
+            this.resetAbility(i);
+        }
+
+    }
+    public turnInfluenceOnAbility(index: number) {
+
+        const item = this['grimmoire'].get(index);
+        if (!item) return;
+
+        const ability = item['reference'] as Ability;
+        const maxDuration = ability['duration'];
+
+        if (item['current-duration'] > 0 && item['current-duration'] < maxDuration) {
+            item['current-duration']--;
+            if (item['current-duration'] === 0) item['current-duration'] = maxDuration;
+        } else if (item['current-cooldown'] > 0) item['current-cooldown']--;
+
+    }
+    public turnInfluenceOnAbilities() {
+
+        for (let i = 0; i < GRIMMOIRE_CAPACITY; i++) {
+            this.turnInfluenceOnAbility(i);
+        }
+
+    }
+    public resetAbilityDuration(index: number): void {
+
+        const item = this['grimmoire'].get(index);
+        if (!item) return;
+
+        const ability = item['reference'] as Ability;
+        item['current-duration'] = ability['duration'];
 
     }
 
@@ -266,6 +329,56 @@ export class Character extends Entry {
         return this._applyEffects(base, condition);
 
     }
+    public getResistanceValue(element: string): number {
+
+        const base = (this['equipment']['current']['apparel']?.['reference'] as any)['resistance'][element] || 0;
+        return this._applyEffects(base, `${element}-resistance`);
+
+    }
+    public getProtectionValue(element: string): number {
+
+        const base = (this['equipment']['current']['apparel']?.['reference'] as any)['protection'][element] || 0;
+        return this._applyEffects(0, `${element}-protection`);
+
+    }
+
+    public dealDamage(value: number, element: string): void {
+
+        const resistance  = this.getResistanceValue(element);
+        const protection  = this.getProtectionValue(element);
+
+        const afterResistance = value * Math.max(0, 1 - (resistance / 4));
+        const afterProtection  = Math.max(0, afterResistance - protection);
+
+        this['condition'].adjustCondition('health', -afterProtection, 'add');
+
+        if (this['condition']['current']['health'] <= 0) {
+            this['condition'].adjustCondition('integrity', -1, 'add');
+            const maxHealth = this.getMaxConditionValue('health');
+            this['condition'].adjustCondition('health', maxHealth, 'set');
+        }
+        
+    }
+
+    public turnInfluenceOnConditions() {
+
+        const toReset = ['major-energy', 'minor-energy', 'reflex-energy', 'movement'];
+        for (const identifier of toReset) {
+            const max = this.getMaxConditionValue(identifier);
+            this['condition'].adjustCondition(identifier, max, 'set');
+        }
+
+    }
+
+    public turnInfluence() {
+
+        this.turnInfluenceOnAbilities();
+        this.turnInfluenceOnConditions();
+
+    }
+
+
+    
 
 }
 

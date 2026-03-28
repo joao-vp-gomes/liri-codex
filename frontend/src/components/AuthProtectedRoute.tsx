@@ -6,7 +6,9 @@ import { useAuth } from '../contexts/AuthContext';
 import type { JSX } from 'react';
 
 
-export const AuthProtectedRoute = ({ children }: { children: JSX.Element }) => {
+export const AuthProtectedRoute = ({ children }: { 
+    children: JSX.Element 
+}) => {
 
     const { account, loading } = useAuth();
     const location = useLocation();

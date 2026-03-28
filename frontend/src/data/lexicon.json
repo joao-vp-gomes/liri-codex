@@ -130,5 +130,169 @@
     "confirm-deletion": {
         "en": "please confirm.",
         "pt": "por favor confime."
+    },
+    "clear-filters": {
+        "en": "clear filters",
+        "pt": "limpar filtros"
+    },
+    "confirm-delete": {
+        "en": "confirm delete",
+        "pt": "confirmar exclusão"
+    },
+    "description": {
+        "en": "description",
+        "pt": "descrição"
+    },
+    "effect": {
+        "en": "effect",
+        "pt": "efeito"
+    },
+    "modifier": {
+        "en": "modifier",
+        "pt": "modificador"
+    },
+    "modifiers": {
+        "en": "modifiers",
+        "pt": "modificadores"
+    },
+    "save-error": {
+        "en": "error saving",
+        "pt": "erro ao salvar"
+    },
+    "saved": {
+        "en": "saved",
+        "pt": "salvo"
+    },
+    "saving": {
+        "en": "saving",
+        "pt": "salvando"
+    },
+    "apparel": {
+        "en": "apparel",
+        "pt": "vestimenta"
+    },
+    "tool": {
+        "en": "tool",
+        "pt": "ferramenta"
+    },
+    "accessory": {
+        "en": "accessory",
+        "pt": "acessório"
+    },
+    "material": {
+        "en": "material",
+        "pt": "material"
+    },
+    "ability": {
+        "en": "ability",
+        "pt": "habilidade"
+    },
+    "pawn": {
+        "en": "pawn",
+        "pt": "peão"
+    },
+    "roster": {
+        "en": "roster",
+        "pt": "patrulha"
+    },
+    "recipe": {
+        "en": "recipe",
+        "pt": "receita"
+    },
+    "catalogue": {
+        "en": "catalogue",
+        "pt": "catálogo"
+    },
+    "melee-weapon": {
+        "en": "melee weapon",
+        "pt": "arma corpo a corpo"
+    },
+    "bow": {
+        "en": "bow",
+        "pt": "arco"
+    },
+    "staff": {
+        "en": "staff",
+        "pt": "cajado"
+    },
+    "slash-damage": {
+        "en": "slash damage",
+        "pt": "dano de corte"
+    },
+    "pierce-damage": {
+        "en": "pierce damage",
+        "pt": "dano de perfuração"
+    },
+    "bludgeon-damage": {
+        "en": "bludgeon damage",
+        "pt": "dano de impacto"
+    },
+    "defense": {
+        "en": "defense",
+        "pt": "defesa"
+    },
+    "damage": {
+        "en": "damage",
+        "pt": "dano"
+    },
+    "connection": {
+        "en": "connection",
+        "pt": "conexão"
+    },
+    "vis": {
+        "en": "vis",
+        "pt": "vis"
+    },
+    "cus": {
+        "en": "cus",
+        "pt": "cus"
+    },
+    "new-entry": {
+        "en": "new entry",
+        "pt": "nova entrada"
+    },
+    "ranged-weapon": {
+        "en": "ranged weapon",
+        "pt": "arma de distância"
+    },
+    "shield": {
+        "en": "shield",
+        "pt": "escudo"
+    },
+    "tome": {
+        "en": "tome",
+        "pt": "tomo"
+    },
+    "instrument": {
+        "en": "instrument",
+        "pt": "instrumento"
+    },
+    "medical-kit": {
+        "en": "medical kit",
+        "pt": "kit médico"
+    },
+    "kind": {
+        "en": "kind",
+        "pt": "tipo"
+    },
+    "compositions": {
+        "en": "composition",
+        "pt": "composição"
+    },
+    "adder": {
+        "en": "adder",
+        "pt": "adicionador"
+    },
+    "multiplier": {
+        "en": "multiplier",
+        "pt": "multiplicador"
+    },
+    "setter": {
+        "en": "setter",
+        "pt": "definidor"
+    },
+    "identifier": {
+        "en": "identifier",
+        "pt": "identificador"
     }
 }

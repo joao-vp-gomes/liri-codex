@@ -2,17 +2,17 @@
 
 
 import React, { useEffect, useState } from 'react';
-import { deleteUser } from '../../services/adminActions';
-import { useLanguage } from '../../contexts/LanguageContext';
-import { t } from '../../utils/localizer';
-import { fetch, register } from '../../services/database';
+import { deleteUser } from '../../../services/adminActions';
+import { useLanguage } from '../../../contexts/LanguageContext';
+import { t } from '../../../utils/localizer';
+import { fetch, register } from '../../../services/database';
 
-import PROFILE_ICON_ANON from '../../assets/profile-icon-anon.png';
-import PROFILE_ICON_1    from '../../assets/profile-icon-1.png';
-import PROFILE_ICON_2    from '../../assets/profile-icon-2.png';
-import PROFILE_ICON_3    from '../../assets/profile-icon-3.png';
+import PROFILE_ICON_ANON from '../../../assets/profile-icon-anon.png';
+import PROFILE_ICON_1    from '../../../assets/profile-icon-1.png';
+import PROFILE_ICON_2    from '../../../assets/profile-icon-2.png';
+import PROFILE_ICON_3    from '../../../assets/profile-icon-3.png';
 
-import styles from '../../pages/ModerationPage/ModerationPage.module.css';
+import styles from '../ModerationPage.module.css';
 
 
 const PROFILE_ICONS = [PROFILE_ICON_ANON, PROFILE_ICON_1, PROFILE_ICON_2, PROFILE_ICON_3];
@@ -98,7 +98,7 @@ const MemberCard: React.FC<{ user: UserDoc }> = ({ user }) => {
                         <input
                             className={styles.cardInput}
                             value={editChars[i]}
-                            placeholder={`character ${i + 1} key`}
+                            placeholder={`${i + 1}`}
                             onClick={e=> { e.stopPropagation() }}
                             onChange={e => {
                                 const next = [...editChars] as [string, string, string];
