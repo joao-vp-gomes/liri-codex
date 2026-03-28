@@ -1,7 +1,7 @@
 // backend/entry/character/equipment.ts
 
 
-import type { EntryCategory } from "../entry.ts";
+import type { EntryCategory } from "../entry/entry.ts";
 import Item from "./item.ts";
 
 export const EQUIPMENT_SLOTS = [
